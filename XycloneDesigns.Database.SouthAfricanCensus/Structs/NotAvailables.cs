@@ -4,6 +4,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Structs
 	public enum NotAvailables
 	{
 		AgedGreaterThan50,
+		AgedGreaterThan50Woman,
 		AgedLessThan05,
 		AgedLessThan12,
 		AgedLessThan12OrGreaterThan50,
