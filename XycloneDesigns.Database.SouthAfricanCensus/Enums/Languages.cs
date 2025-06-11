@@ -38,7 +38,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class LanguagesExtensions
 	{
-		public static Languages? FromInt(this Languages _, int value, Years? year, out NotAvailables? notavailable)
+		public static Languages? FromInt(this Languages _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -49,7 +49,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(01, Years._1996) => Languages.IsiNdebele,
 				(02, Years._1996) => Languages.IsiXhosa,

@@ -15,7 +15,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class StatusWorksExtensions
 	{
-		public static StatusWork? FromInt(this StatusWork _, int value, Years? year, out NotAvailables? notavailable)
+		public static StatusWork? FromInt(this StatusWork _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -26,7 +26,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(1, Years._1996) => StatusWork.SelfEmployed,
 				(2, Years._1996) => StatusWork.Employer,

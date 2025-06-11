@@ -75,7 +75,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class CountriessExtensions
 	{
-		public static Countries FromInt(this Countries _, int value, Years? year, out NotAvailables? notavailable)
+		public static Countries? FromInt(this Countries _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -85,7 +85,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return(value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(01, Years._1996) => Countries.SouthAfrica,
 				(02, Years._1996) => Countries.Namibia,

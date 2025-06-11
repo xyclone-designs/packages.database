@@ -14,7 +14,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class StatusStudyingsExtensions
 	{
-		public static StatusStudying? FromInt(this StatusStudying _, int value, Years? year, out NotAvailables? notavailable)
+		public static StatusStudying? FromInt(this StatusStudying _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -25,7 +25,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(1, Years._1996) => StatusStudying.FullTime,
 				(2, Years._1996) => StatusStudying.PartTime,

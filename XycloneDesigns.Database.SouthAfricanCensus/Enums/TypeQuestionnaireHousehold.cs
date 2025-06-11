@@ -15,7 +15,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class TypeQuestionnaireHouseholdssExtensions
 	{
-		public static TypeQuestionnaireHouseholds FromString(this TypeQuestionnaireHouseholds _, string value, Years? year, out NotAvailables? notavailable)
+		public static TypeQuestionnaireHouseholds From(this TypeQuestionnaireHouseholds _, string value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = null;
 

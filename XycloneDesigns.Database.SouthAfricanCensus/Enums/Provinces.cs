@@ -18,9 +18,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class ProvincessExtensions
 	{
-		public static Provinces FromInt(this Provinces _, int value, Years? year)
+		public static Provinces? FromInt(this Provinces _, int? value, Years? year)
 		{
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(1, Years._1996) => Provinces.WesternCape,
 				(2, Years._1996) => Provinces.EasternCape,

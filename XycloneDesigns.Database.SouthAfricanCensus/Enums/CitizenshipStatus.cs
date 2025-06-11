@@ -14,7 +14,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class CitizenshipStatussExtensions
 	{
-		public static CitizenshipStatus? FromInt(this CitizenshipStatus _, int value, Years? year, out NotAvailables? notavailable)
+		public static CitizenshipStatus? FromInt(this CitizenshipStatus _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,7 +24,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(1, Years._1996) => CitizenshipStatus.SouthAfricaOnly,
 				(2, Years._1996) => CitizenshipStatus.SouthAfricaAndAnotherCountry,

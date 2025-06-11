@@ -25,7 +25,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class IncomeLevelsMonthlysExtensions
 	{
-		public static IncomeLevelsMonthly? FromInt(this IncomeLevelsMonthly _, int value, Years? year, out NotAvailables? notavailable)
+		public static IncomeLevelsMonthly? FromInt(this IncomeLevelsMonthly _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -35,7 +35,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(01, Years._1996) => IncomeLevelsMonthly.None,
 				(02, Years._1996) => IncomeLevelsMonthly.R1_R200,

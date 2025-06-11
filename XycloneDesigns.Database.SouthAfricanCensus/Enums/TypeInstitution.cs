@@ -35,7 +35,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class TypeInstitutionsExtensions
 	{
-		public static TypeInstitution? FromInt(this TypeInstitution _, int value, Years? year, out NotAvailables? notavailable)
+		public static TypeInstitution? FromInt(this TypeInstitution _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -45,7 +45,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(1, Years._1996) => TypeInstitution.TouristHotelMotel,
 				(2, Years._1996) => TypeInstitution.ResidentialHotelboardingHouse,

@@ -9,90 +9,211 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public static class SQL
 		{
 			public const string Table = "records_household";
+
+			public const string Column_Number = "number";
+			public const string Column_Province = "province";
+			public const string Column_CouncilCodeDistrict = "councilcodedistrict";
+			public const string Column_CouncilCodeMagisterial = "councilcodemagisterial";
+			public const string Column_CouncilCodeTransitionalLocalRural = "councilcodetransitionallocalrural";
+			public const string Column_Dwelling = "dwelling";
+			public const string Column_DwellingsOwned = "dwellingsowned";
+			public const string Column_FacilitiesToilet = "facilitiestoilet";
+			public const string Column_FacilitiesTelephone = "facilitiestelephone";
+			public const string Column_FacilitiesRefuseDisposal = "facilitiesrefusedisposal";
+			public const string Column_HeadOf_Age = "headof_age";
+			public const string Column_HeadOf_Education = "headof_education";
+			public const string Column_HeadOf_EmploymentStatus = "headof_employmentstatus";
+			public const string Column_HeadOf_IncomeLevel = "headof_incomelevel";
+			public const string Column_HeadOf_Occupation = "headof_occupation";
+			public const string Column_HeadOf_Race = "headof_race";
+			public const string Column_HeadOf_Sex = "headof_sex";
+			public const string Column_HighestIncomeIn_Gender = "highestincomein_gender";
+			public const string Column_HighestIncomeIn_Race = "highestincomein_race";
+			public const string Column_HouseholdSize = "householdsize";
+			public const string Column_Income = "income";
+			public const string Column_IncomeAdditional = "incomeadditional";
+			public const string Column_IncomeReceivedRemittances = "incomereceivedremittances";
+			public const string Column_Migrant = "migrant";
+			public const string Column_NumberOf_MigrantWorkers = "numberof_migrantworkers";
+			public const string Column_NumberOf_HouseholdsSharingOneRoom = "numberof_householdssharingoneroom";
+			public const string Column_QuestionType = "questiontype";
+			public const string Column_Rooms = "rooms";
+			public const string Column_SourceOfWater = "sourceofwater";
+			public const string Column_SourceOfFuelCooking = "sourceoffuelcooking";
+			public const string Column_SourceOfFuelHeating = "sourceoffuelheating";
+			public const string Column_SourceOfFuelLighting = "sourceoffuellighting";
+			public const string Column_Urban = "urban";
 		}
 
-		public int? Number { get; set; }
-
-		public Provinces? Province { get; set; }
-		public int? CouncilCodeDistrict { get; set; }
-		public int? CouncilCodeMagisterial { get; set; }
-		public int? CouncilCodeTransitionalLocalRural { get; set; }
-
-		public string? NumberOf_MigrantWorkers
-		{ 
-			get => _NumberOf_MigrantWorkers?.ToString(); 
-			set => _NumberOf_MigrantWorkers = Uncertain.FromString<int>(value); 
+		[SQLite.Column(SQL.Column_Number)] public int? Number { get; set; }
+		[SQLite.Column(SQL.Column_Province)] public string? Province
+		{
+			get => _Province?.ToString();
+			set => _Province = Uncertain.From<Provinces>(value);
 		}
-		public string? NumberOf_HouseholdsSharingOneRoom
-		{ 
-			get => _NumberOf_HouseholdsSharingOneRoom?.ToString(); 
-			set => _NumberOf_HouseholdsSharingOneRoom = Uncertain.FromString<int>(value); 
+		[SQLite.Column(SQL.Column_CouncilCodeDistrict)] public int? CouncilCodeDistrict { get; set; }
+		[SQLite.Column(SQL.Column_CouncilCodeMagisterial)] public int? CouncilCodeMagisterial { get; set; }
+		[SQLite.Column(SQL.Column_CouncilCodeTransitionalLocalRural)] public int? CouncilCodeTransitionalLocalRural { get; set; }
+		[SQLite.Column(SQL.Column_Dwelling)] public string? Dwelling
+		{
+			get => _Dwelling?.ToString();
+			set => _Dwelling = Uncertain.From<TypeDwelling>(value);
 		}
-
-		public Sexes? HighestIncomeIn_Gender { get; set; }
-		public PopulationGroups? HighestIncomeIn_Race { get; set; }
-
-		public IncomeLevelsMonthlyHousehold? Income { get; set; }
-		public IncomeLevelsMonthlyHousehold? IncomeAdditional { get; set; }
-		public IncomeLevelsMonthlyHousehold? IncomeReceivedRemittances { get; set; } 
-
-		public Sexes? HeadOf_Sex { get; set; }
-		public string? HeadOf_Age
-		{ 
-			get => _HeadOf_Age?.ToString(); 
-			set => _HeadOf_Age = Uncertain.FromString<int>(value); 
-		}
-		public PopulationGroups? HeadOf_Race { get; set; }
-		public EducationLevels? HeadOf_Education { get; set; }
-		public EmploymentStatuses? HeadOf_EmploymentStatus { get; set; }
-		public string? HeadOf_Occupation { get; set; }
-		public IncomeLevelsMonthly? HeadOf_IncomeLevel { get; set; }
-
-		public string? HouseholdSize
-		{ 
-			get => _HouseholdSize?.ToString(); 
-			set => _HouseholdSize = Uncertain.FromString<int>(value); 
-		}
-		public TypeQuestionnaireHouseholds? QuestionType { get; set; }
-		public string? Urban
-		{ 
-			get => _Urban?.ToString(); 
-			set => _Urban = Uncertain.FromString<bool>(value); 
-		}
-		public string? Migrant
-		{ 
-			get => _Migrant?.ToString(); 
-			set => _Migrant = Uncertain.FromString<bool>(value); 
-		}
-		public string? Rooms
-		{ 
-			get => _Rooms?.ToString(); 
-			set => _Rooms = Uncertain.FromString<int>(value); 
-		}
-		public TypeDwelling? Dwelling { get; set; } 
-		public string? DwellingsOwned
+		[SQLite.Column(SQL.Column_DwellingsOwned)] public string? DwellingsOwned
 		{ 
 			get => _DwellingsOwned?.ToString(); 
-			set => _DwellingsOwned = Uncertain.FromString<bool> (value); 
+			set => _DwellingsOwned = Uncertain.From<bool> (value); 
+		}
+		[SQLite.Column(SQL.Column_FacilitiesToilet)] public string? FacilitiesToilet
+		{
+			get => _FacilitiesToilet?.ToString();
+			set => _FacilitiesToilet = Uncertain.From<FacilitiesToilet>(value);
+		}
+		[SQLite.Column(SQL.Column_FacilitiesTelephone)] public string? FacilitiesTelephone
+		{
+			get => _FacilitiesTelephone?.ToString();
+			set => _FacilitiesTelephone = Uncertain.From<FacilitiesTelephone>(value);
+		}
+		[SQLite.Column(SQL.Column_FacilitiesRefuseDisposal)] public string? FacilitiesRefuseDisposal
+		{
+			get => _FacilitiesRefuseDisposal?.ToString();
+			set => _FacilitiesRefuseDisposal = Uncertain.From<FacilitiesRefuseDisposal>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_Age)] public string? HeadOf_Age
+		{
+			get => _HeadOf_Age?.ToString();
+			set => _HeadOf_Age = Uncertain.From<int>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_Education)] public string? HeadOf_Education
+		{
+			get => _HeadOf_Education?.ToString();
+			set => _HeadOf_Education = Uncertain.From<EducationLevels>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_EmploymentStatus)] public string? HeadOf_EmploymentStatus
+		{
+			get => _HeadOf_EmploymentStatus?.ToString();
+			set => _HeadOf_EmploymentStatus = Uncertain.From<EmploymentStatuses>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_IncomeLevel)] public string? HeadOf_IncomeLevel
+		{
+			get => _HeadOf_IncomeLevel?.ToString();
+			set => _HeadOf_IncomeLevel = Uncertain.From<IncomeLevelsMonthly>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_Occupation)] public int? HeadOf_Occupation { get; set; }
+		[SQLite.Column(SQL.Column_HeadOf_Race)] public string? HeadOf_Race
+		{
+			get => _HeadOf_Race?.ToString();
+			set => _HeadOf_Race = Uncertain.From<PopulationGroups>(value);
+		}
+		[SQLite.Column(SQL.Column_HeadOf_Sex)] public string? HeadOf_Sex
+		{
+			get => _HeadOf_Sex?.ToString();
+			set => _HeadOf_Sex = Uncertain.From<Sexes>(value);
+		}
+		[SQLite.Column(SQL.Column_HighestIncomeIn_Gender)] public string? HighestIncomeIn_Gender
+		{
+			get => _HighestIncomeIn_Gender?.ToString();
+			set => _HighestIncomeIn_Gender = Uncertain.From<Sexes>(value);
+		}
+		[SQLite.Column(SQL.Column_HighestIncomeIn_Race)] public string? HighestIncomeIn_Race 
+		{
+			get => _HighestIncomeIn_Race ?.ToString();
+			set => _HighestIncomeIn_Race  = Uncertain.From<PopulationGroups>(value);
+		}
+		[SQLite.Column(SQL.Column_HouseholdSize)] public string? HouseholdSize
+		{
+			get => _HouseholdSize?.ToString();
+			set => _HouseholdSize = Uncertain.From<int>(value);
+		}
+		[SQLite.Column(SQL.Column_Income)] public string? Income
+		{
+			get => _Income?.ToString();
+			set => _Income = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
+		}
+		[SQLite.Column(SQL.Column_IncomeAdditional)] public string? IncomeAdditional
+		{
+			get => _IncomeAdditional?.ToString();
+			set => _IncomeAdditional = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
+		}
+		[SQLite.Column(SQL.Column_IncomeReceivedRemittances)] public string? IncomeReceivedRemittances
+		{
+			get => _IncomeReceivedRemittances?.ToString();
+			set => _IncomeReceivedRemittances = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
+		}
+		[SQLite.Column(SQL.Column_Migrant)] public string? Migrant
+		{
+			get => _Migrant?.ToString();
+			set => _Migrant = Uncertain.From<bool>(value);
+		}
+		[SQLite.Column(SQL.Column_NumberOf_MigrantWorkers)] public string? NumberOf_MigrantWorkers
+		{
+			get => _NumberOf_MigrantWorkers?.ToString();
+			set => _NumberOf_MigrantWorkers = Uncertain.From<int>(value);
+		}
+		[SQLite.Column(SQL.Column_NumberOf_HouseholdsSharingOneRoom)] public string? NumberOf_HouseholdsSharingOneRoom
+		{
+			get => _NumberOf_HouseholdsSharingOneRoom?.ToString();
+			set => _NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(value);
+		}
+		[SQLite.Column(SQL.Column_QuestionType)] public string? QuestionType { get; set; }
+		[SQLite.Column(SQL.Column_Rooms)] public string? Rooms
+		{
+			get => _Rooms?.ToString();
+			set => _Rooms = Uncertain.From<int>(value);
+		}
+		[SQLite.Column(SQL.Column_SourceOfWater)] public string? SourceOfWater
+		{
+			get => _SourceOfWater?.ToString();
+			set => _SourceOfWater = Uncertain.From<SourceOfWater>(value);
+		}
+		[SQLite.Column(SQL.Column_SourceOfFuelCooking)] public string? SourceOfFuelCooking
+		{
+			get => _SourceOfFuelCooking?.ToString();
+			set => _SourceOfFuelCooking = Uncertain.From<SourceOfFuel>(value);
+		}
+		[SQLite.Column(SQL.Column_SourceOfFuelHeating)] public string? SourceOfFuelHeating
+		{
+			get => _SourceOfFuelHeating?.ToString();
+			set => _SourceOfFuelHeating = Uncertain.From<SourceOfFuel>(value);
+		}
+		[SQLite.Column(SQL.Column_SourceOfFuelLighting)] public string? SourceOfFuelLighting
+		{
+			get => _SourceOfFuelLighting?.ToString();
+			set => _SourceOfFuelLighting = Uncertain.From<SourceOfFuel>(value);
+		}
+		[SQLite.Column(SQL.Column_Urban)] public string? Urban
+		{
+			get => _Urban?.ToString();
+			set => _Urban = Uncertain.From<bool>(value);
 		}
 
-		public FacilitiesToilet? FacilitiesToilet { get; set; }
-		public FacilitiesTelephone? FacilitiesTelephone { get; set; }
-		public FacilitiesRefuseDisposal? FacilitiesRefuseDisposal { get; set; }
-
-		public SourceOfWater? SourceOfWater { get; set; }
-		public SourceOfFuel? SourceOfFuelCooking { get; set; }
-		public SourceOfFuel? SourceOfFuelHeating { get; set; }
-		public SourceOfFuel? SourceOfFuelLighting { get; set; }
-
-
-		private Uncertain<int>? _NumberOf_MigrantWorkers;
-		private Uncertain<int>? _NumberOf_HouseholdsSharingOneRoom;
-		private Uncertain<int>? _HeadOf_Age;
-		private Uncertain<int>? _HouseholdSize;
-		private Uncertain<bool>? _Urban;
-		private Uncertain<bool>? _Migrant;
-		private Uncertain<int>? _Rooms;
-		private Uncertain<bool>? _DwellingsOwned;
+		public Uncertain<Provinces>? _Province;
+		public Uncertain<bool>? _DwellingsOwned;
+		public Uncertain<TypeDwelling>? _Dwelling;
+		public Uncertain<FacilitiesToilet>? _FacilitiesToilet;
+		public Uncertain<FacilitiesTelephone>? _FacilitiesTelephone;
+		public Uncertain<FacilitiesRefuseDisposal>? _FacilitiesRefuseDisposal;
+		public Uncertain<int>? _HeadOf_Age;
+		public Uncertain<EducationLevels>? _HeadOf_Education;
+		public Uncertain<EmploymentStatuses>? _HeadOf_EmploymentStatus;
+		public Uncertain<IncomeLevelsMonthly>? _HeadOf_IncomeLevel;
+		public Uncertain<PopulationGroups>? _HeadOf_Race;
+		public Uncertain<Sexes>? _HeadOf_Sex;
+		public Uncertain<Sexes>? _HighestIncomeIn_Gender;
+		public Uncertain<PopulationGroups>? _HighestIncomeIn_Race;
+		public Uncertain<int>? _HouseholdSize;
+		public Uncertain<IncomeLevelsMonthlyHousehold>? _Income;
+		public Uncertain<IncomeLevelsMonthlyHousehold>? _IncomeAdditional;
+		public Uncertain<IncomeLevelsMonthlyHousehold>? _IncomeReceivedRemittances;
+		public Uncertain<bool>? _Migrant;
+		public Uncertain<int>? _NumberOf_MigrantWorkers;
+		public Uncertain<int>? _NumberOf_HouseholdsSharingOneRoom;
+		public Uncertain<TypeQuestionnaireHouseholds>? _QuestionType;
+		public Uncertain<int>? _Rooms;
+		public Uncertain<SourceOfWater>? _SourceOfWater;
+		public Uncertain<SourceOfFuel>? _SourceOfFuelCooking;
+		public Uncertain<SourceOfFuel>? _SourceOfFuelHeating;
+		public Uncertain<SourceOfFuel>? _SourceOfFuelLighting;
+		public Uncertain<bool>? _Urban;
 	}
 }

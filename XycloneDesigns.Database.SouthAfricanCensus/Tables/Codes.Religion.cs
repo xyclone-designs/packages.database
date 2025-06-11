@@ -8,11 +8,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		{
 			public const string Table = "codes_religion";
 
-			public const string Code = "code";
-			public const string Value = "value";
+			public const string Column_Code = "code";
+			public const string Column_Value = "value";
 		}
 
-		[SQLite.Column(SQL.Code)] public string? Code { get; set; }
-		[SQLite.Column(SQL.Value)] public string? Value { get; set; }
+		[SQLite.Column(SQL.Column_Code)] public string? Code { get; set; }
+		[SQLite.Column(SQL.Column_Value)] public string? Value { get; set; }
 	}
 }

@@ -16,14 +16,16 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class ImputationFlagsExtensions
 	{
-		public static ImputationFlags? FromInt(this ImputationFlags _, int value, Years? year, out NotAvailables? notavailable)
+		public static ImputationFlags? FromInt(this ImputationFlags _, int? value, Years? year, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
 				_ => new NotAvailables?(),
 			};
 
-			return (value, year) switch
+			if (value is null) return null;
+
+			return (value.Value, year) switch
 			{
 				(0, Years._2001) => ImputationFlags.NoImputation,
 				(1, Years._2001) => ImputationFlags.LogicalImputationFromBlank,

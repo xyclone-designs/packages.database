@@ -4,7 +4,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Structs
 {
 	public struct Uncertain
 	{
-		public static Uncertain<TTValue>? FromString<TTValue>(string? str) 
+		public static Uncertain<TTValue>? From<TTValue>(int? value)
+		{
+			return From<TTValue>(value.ToString());
+		}
+		public static Uncertain<TTValue>? From<TTValue>(string? str) 
 		{
 			if (str is null)
 				return null;
