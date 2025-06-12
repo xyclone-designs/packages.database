@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum MaritalStatuses
 	{
 		NeverMarried,
@@ -17,7 +14,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class MaritalStatusessExtensions
 	{
-		public static MaritalStatuses? FromInt(this MaritalStatuses _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this MaritalStatuses _, int value, Years? year, out MaritalStatuses? maritalstatuses, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -27,9 +24,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			maritalstatuses = (value, year) switch
 			{
 				(1, Years._1996) => MaritalStatuses.NeverMarried,
 				(2, Years._1996) => MaritalStatuses.MarriedCivilReligious,
@@ -45,10 +40,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(5, _) => MaritalStatuses.Widowed,
 				(6, _) => MaritalStatuses.DivorcedSeparated,
 
-				_ => notavailable is null
-					? new MaritalStatuses?()
-					: throw new ArgumentException(string.Format("MaritalStatuses for value '{0}' & year '{1}' not found", value, year))
+				_ => new MaritalStatuses?()
 			};
+
+			return notavailable is not null || maritalstatuses is not null;
 		}
 	}
 }

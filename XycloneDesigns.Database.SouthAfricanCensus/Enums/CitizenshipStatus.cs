@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum CitizenshipStatus 
 	{
 		SouthAfricaOnly,
@@ -14,7 +11,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class CitizenshipStatussExtensions
 	{
-		public static CitizenshipStatus? FromInt(this CitizenshipStatus _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this CitizenshipStatus _, int value, Years? year, out CitizenshipStatus? citizenshipstatus, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,9 +21,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			citizenshipstatus = (value, year) switch
 			{
 				(1, Years._1996) => CitizenshipStatus.SouthAfricaOnly,
 				(2, Years._1996) => CitizenshipStatus.SouthAfricaAndAnotherCountry,
@@ -36,10 +31,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(2, _) => CitizenshipStatus.SouthAfricaAndAnotherCountry,
 				(3, _) => CitizenshipStatus.AnotherCountryOnly,
 
-				_ => notavailable is null
-					? new CitizenshipStatus?()
-					: throw new ArgumentException(string.Format("CitizenshipStatus for value '{0}' & year '{1}' not found", value, year))
+				_ => new CitizenshipStatus?()
 			};
+
+			return notavailable is not null || citizenshipstatus is not null;
 		}
 	}
 }

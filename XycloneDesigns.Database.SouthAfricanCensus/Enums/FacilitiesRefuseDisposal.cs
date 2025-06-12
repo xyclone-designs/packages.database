@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum FacilitiesRefuseDisposal
 	{
 		RemovedByLocalAuthorityAtLeastWeekly,
@@ -17,7 +14,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class FacilitiesRefuseDisposalsExtensions
 	{
-		public static FacilitiesRefuseDisposal? FromInt(this FacilitiesRefuseDisposal _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this FacilitiesRefuseDisposal _, int value, Years? year, out FacilitiesRefuseDisposal? facilitiesrefusedisposal, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -26,9 +23,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			facilitiesrefusedisposal = (value, year) switch
 			{
 				(1, Years._1996) => FacilitiesRefuseDisposal.RemovedByLocalAuthorityAtLeastWeekly,
 				(2, Years._1996) => FacilitiesRefuseDisposal.RemovedByLocalAuthorityLessOften,
@@ -44,10 +39,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(5, _) => FacilitiesRefuseDisposal.NoRubbishDisposal,
 				(6, _) => FacilitiesRefuseDisposal.Other,
 				
-				_ => notavailable is null
-					? new FacilitiesRefuseDisposal?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new FacilitiesRefuseDisposal?()
 			};
+
+			return notavailable is not null || facilitiesrefusedisposal is not null;
 		}
 	}
 }

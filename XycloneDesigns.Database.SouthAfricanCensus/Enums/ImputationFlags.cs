@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum ImputationFlags 
 	{
 		NoImputation,
@@ -16,16 +13,14 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class ImputationFlagsExtensions
 	{
-		public static ImputationFlags? FromInt(this ImputationFlags _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this ImputationFlags _, int value, Years? year, out ImputationFlags? imputationflags, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			imputationflags = (value, year) switch
 			{
 				(0, Years._2001) => ImputationFlags.NoImputation,
 				(1, Years._2001) => ImputationFlags.LogicalImputationFromBlank,
@@ -39,10 +34,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(3, _) => ImputationFlags.HotDeckImputationFromBlank,
 				(4, _) => ImputationFlags.HotDeckImputationNonBlank,
 
-				_ => notavailable is null
-					? new ImputationFlags?()
-					: throw new ArgumentException(string.Format("ImputationFlags for value '{0}' & year '{1}' not found", value, year))
+				_ => new ImputationFlags?()
 			};
+
+			return notavailable is not null || imputationflags is not null;
 		}
 	}
 }

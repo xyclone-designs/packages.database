@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum TypeQuestionnaireHouseholds
 	{
 		Household,
@@ -15,11 +12,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class TypeQuestionnaireHouseholdssExtensions
 	{
-		public static TypeQuestionnaireHouseholds From(this TypeQuestionnaireHouseholds _, string value, Years? year, out NotAvailables? notavailable)
+		public static bool From(this TypeQuestionnaireHouseholds _, string value, Years? year, out TypeQuestionnaireHouseholds? typequestionnairehouseholds, out NotAvailables? notavailable)
 		{
 			notavailable = null;
 
-			return (value, year) switch
+			typequestionnairehouseholds = (value, year) switch
 			{
 				("H", Years._1996) => TypeQuestionnaireHouseholds.Household,
 				("I", Years._1996) => TypeQuestionnaireHouseholds.Hostel,
@@ -31,8 +28,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				("S", _) => TypeQuestionnaireHouseholds.Institution,
 				("D", _) => TypeQuestionnaireHouseholds.DummyRecords,
 
-				_ => throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new TypeQuestionnaireHouseholds?()
 			};
+
+			return notavailable is not null || typequestionnairehouseholds is not null;
 		}
 	}
 }

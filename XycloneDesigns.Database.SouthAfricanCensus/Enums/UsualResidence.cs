@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum UsualResidence
 	{
 		NoUsualAddress,
@@ -14,7 +11,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class UsualResidencesExtensions
 	{
-		public static UsualResidence? FromInt(this UsualResidence _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this UsualResidence _, int value, Years? year, out UsualResidence? usualresidence, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,9 +21,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			usualresidence = (value, year) switch
 			{
 				(1, Years._1996) => UsualResidence.UsualResident,
 				(2, Years._1996) => UsualResidence.Visitor,
@@ -36,10 +31,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(2, _) => UsualResidence.Visitor,
 				(3, _) => UsualResidence.NoUsualAddress,
 
-				_ => notavailable is null
-					? new UsualResidence?()
-					: throw new ArgumentException(string.Format("UsualResidence for value '{0}' & year '{1}' not found", value, year))
+				_ => new UsualResidence?()
 			};
+
+			return notavailable is not null || usualresidence is not null;
 		}
 	}
 }

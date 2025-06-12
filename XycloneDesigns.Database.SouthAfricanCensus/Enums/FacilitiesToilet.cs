@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum FacilitiesToilet
 	{
 		FlushOrChemicalToilet,
@@ -15,7 +12,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class FacilitiesToiletsExtensions
 	{
-		public static FacilitiesToilet? FromInt(this FacilitiesToilet _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this FacilitiesToilet _, int? value, Years? year, out FacilitiesToilet? facilitiestoilet, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,9 +21,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			facilitiestoilet = (value, year) switch
 			{
 				(1, Years._1996) => FacilitiesToilet.FlushOrChemicalToilet,
 				(2, Years._1996) => FacilitiesToilet.PitLatrine,
@@ -38,10 +33,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(3, _) => FacilitiesToilet.BucketLatrine,
 				(4, _) => FacilitiesToilet.NoneOfTheAbove,
 
-				_ => notavailable is null
-					? new FacilitiesToilet?()
-					: throw new ArgumentException(string.Format("FacilitiesToilet for value '{0}' & year '{1}' not found", value, year))
+				_ => new FacilitiesToilet?()
 			};
+
+			return notavailable is not null || facilitiestoilet is not null;
 		}
 	}
 }

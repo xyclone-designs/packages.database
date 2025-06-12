@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum IncomeLevelsMonthly
 	{
 		None,
@@ -25,7 +22,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class IncomeLevelsMonthlysExtensions
 	{
-		public static IncomeLevelsMonthly? FromInt(this IncomeLevelsMonthly _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this IncomeLevelsMonthly _, int value, Years? year, out IncomeLevelsMonthly? incomelevelsmonthly, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -35,9 +32,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			incomelevelsmonthly = (value, year) switch
 			{
 				(01, Years._1996) => IncomeLevelsMonthly.None,
 				(02, Years._1996) => IncomeLevelsMonthly.R1_R200,
@@ -69,10 +64,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(13, _) => IncomeLevelsMonthly.R16001_R30000,
 				(14, _) => IncomeLevelsMonthly.R30001_OrMore,
 
-				_ => notavailable is null
-					? new IncomeLevelsMonthly?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new IncomeLevelsMonthly?()
 			};
+
+			return notavailable is not null || incomelevelsmonthly is not null;
 		}
 	}
 }

@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum SourceOfFuel
 	{
 		EectricityDirectFromAuthority,
@@ -19,7 +16,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class SourceOfFuelsExtensions
 	{
-		public static SourceOfFuel? FromInt(this SourceOfFuel _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this SourceOfFuel _, int value, Years? year, out SourceOfFuel? sourceoffuel, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -28,9 +25,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			sourceoffuel = (value, year) switch
 			{
 				(1, Years._1996) => SourceOfFuel.EectricityDirectFromAuthority,
 				(2, Years._1996) => SourceOfFuel.ElectricityFromOtherSource,
@@ -50,10 +45,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(8, _) => SourceOfFuel.AnimalDung,
 				(0, _) => SourceOfFuel.Other,
 
-				_ => notavailable is null
-					? new SourceOfFuel?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new SourceOfFuel?()
 			};
+
+			return notavailable is not null || sourceoffuel is not null;
 		}
 	}
 }

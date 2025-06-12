@@ -1,6 +1,4 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
@@ -13,7 +11,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class SexesExtensions
 	{
-		public static Sexes? FromInt(this Sexes _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this Sexes _, int value, Years? year, out Sexes? sexes, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -23,17 +21,15 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			sexes = (value, year) switch
 			{
 				(1, _) => Sexes.Male,
 				(2, _) => Sexes.Female,
 
-				_ => notavailable is null
-					? new Sexes?()
-					: throw new ArgumentException(string.Format("Sexes for value '{0}' & year '{1}' not found", value, year))
+				_ => new Sexes?()
 			};
+
+			return notavailable is not null || sexes is not null;
 		}
 	}
 }

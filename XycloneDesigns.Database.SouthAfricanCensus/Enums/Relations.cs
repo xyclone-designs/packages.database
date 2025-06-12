@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum Relations
 	{
 		HeadOfHousehold,
@@ -20,7 +17,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class RelationssExtensions
 	{
-		public static Relations? FromInt(this Relations _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this Relations _, int value, Years? year, out Relations? relations, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -30,9 +27,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			relations = (value, year) switch
 			{
 				(1, Years._1996) => Relations.HeadOfHousehold,
 				(2, Years._1996) => Relations.HusbandWifePartner,
@@ -54,10 +49,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(8, _) => Relations.OtherRelative,
 				(9, _) => Relations.NonRelatedPerson,
 
-				_ => notavailable is null
-					? new Relations?()
-					: throw new ArgumentException(string.Format("Relations for value '{0}' & year '{1}' not found", value, year))
+				_ => new Relations?()
 			};
+
+			return notavailable is not null || relations is not null;
 		}
 	}
 }

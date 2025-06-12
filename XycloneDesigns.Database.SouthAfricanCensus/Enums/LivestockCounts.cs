@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum LivestockCounts
 	{
 		_000,
@@ -15,7 +12,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class LivestockCountsExtensions
 	{
-		public static LivestockCounts? FromInt(this LivestockCounts _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this LivestockCounts _, int value, Years? year, out LivestockCounts? livestockcounts, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,9 +21,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			livestockcounts = (value, year) switch
 			{
 				(1, Years._2011) => LivestockCounts._000,
 				(2, Years._2011) => LivestockCounts._001To010,
@@ -38,10 +33,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(3, _) => LivestockCounts._010To100,
 				(4, _) => LivestockCounts._100OrMore,
 
-				_ => notavailable is null
-					? new LivestockCounts?()
-					: throw new ArgumentException(string.Format("LivestockCounts for value '{0}' & year '{1}' not found", value, year))
+				_ => new LivestockCounts?()
 			};
+
+			return notavailable is not null || livestockcounts is not null;
 		}
 	}
 }

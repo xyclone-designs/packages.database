@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum EmploymentStatuses
 	{
 		Employed,
@@ -20,7 +17,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class EmploymentStatusessExtensions
 	{
-		public static EmploymentStatuses? FromInt(this EmploymentStatuses _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this EmploymentStatuses _, int value, Years? year, out EmploymentStatuses? employmentstatuses, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -30,9 +27,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			employmentstatuses = (value, year) switch
 			{
 				(01, Years._1996) => EmploymentStatuses.Employed,
 				(02, Years._1996) => EmploymentStatuses.UnemployedLookingForWork,
@@ -54,10 +49,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(09, _) => EmploymentStatuses.NotWorkingNotWishingToWork,
 				(10, _) => EmploymentStatuses.NotWorkingNoneOfTheAbove,
 
-				_ => notavailable is null
-					? new EmploymentStatuses?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new EmploymentStatuses?()
 			};
+
+			return notavailable is not null || employmentstatuses is not null;
 		}
 	}
 }

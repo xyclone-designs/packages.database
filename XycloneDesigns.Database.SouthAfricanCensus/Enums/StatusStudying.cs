@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum StatusStudying
 	{
 		FullTime,
@@ -14,7 +11,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class StatusStudyingsExtensions
 	{
-		public static StatusStudying? FromInt(this StatusStudying _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this StatusStudying _, int value, Years? year, out StatusStudying? statusstudying, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -25,9 +22,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			statusstudying = (value, year) switch
 			{
 				(1, Years._1996) => StatusStudying.FullTime,
 				(2, Years._1996) => StatusStudying.PartTime,
@@ -37,10 +32,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(2, _) => StatusStudying.PartTime,
 				(3, _) => StatusStudying.No,
 				
-				_ => notavailable is null
-					? new StatusStudying?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new StatusStudying?()
 			};
+
+			return notavailable is not null || statusstudying is not null;
 		}
 	}
 }

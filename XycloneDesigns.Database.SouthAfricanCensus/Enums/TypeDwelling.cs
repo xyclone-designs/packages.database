@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum TypeDwelling
 	{
 		HouseOrBrickStructureOnSeparateStand,
@@ -23,7 +20,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class TypeDwellingsExtensions
 	{
-		public static TypeDwelling? FromInt(this TypeDwelling _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this TypeDwelling _, int value, Years? year, out TypeDwelling? typedwelling, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -33,9 +30,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			typedwelling = (value, year) switch
 			{
 				(01, Years._1996) => TypeDwelling.HouseOrBrickStructureOnSeparateStand,
 				(02, Years._1996) => TypeDwelling.TraditionalDwelling,
@@ -63,10 +58,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(11, _) => TypeDwelling.NoneHomeless,
 				(12, _) => TypeDwelling.Other,
 
-				_ => notavailable is not null
-					? new TypeDwelling?()
-					: throw new ArgumentException(string.Format("TypeDwelling for value '{0}' & year '{1}' not found", value, year))
+				_ => new TypeDwelling?()
 			};
+
+			return notavailable is not null || typedwelling is not null;
 		}
 	}
 }

@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum SourceOfWater
 	{
 		PipedWaterInDwelling,
@@ -18,7 +15,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class SourceOfWatersExtensions
 	{
-		public static SourceOfWater? FromInt(this SourceOfWater _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this SourceOfWater _, int value, Years? year, out SourceOfWater? sourceofwater, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -27,9 +24,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			sourceofwater = (value, year) switch
 			{
 				(1, Years._1996) => SourceOfWater.PipedWaterInDwelling,
 				(2, Years._1996) => SourceOfWater.PipedWaterOnSite,
@@ -47,10 +42,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(6, _) => SourceOfWater.DamRiverStreamSpring,
 				(7, _) => SourceOfWater.Other,
 
-				_ => notavailable is null
-					? new SourceOfWater?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new SourceOfWater?()
 			};
+
+			return notavailable is not null || sourceofwater is not null;
 		}
 	}
 }

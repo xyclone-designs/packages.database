@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum TypeInstitution
 	{
 		TouristHotelMotel,
@@ -35,7 +32,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class TypeInstitutionsExtensions
 	{
-		public static TypeInstitution? FromInt(this TypeInstitution _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this TypeInstitution _, int value, Years? year, out TypeInstitution? typeinstitution, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -45,9 +42,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			typeinstitution = (value, year) switch
 			{
 				(1, Years._1996) => TypeInstitution.TouristHotelMotel,
 				(2, Years._1996) => TypeInstitution.ResidentialHotelboardingHouse,
@@ -99,10 +94,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(23, _) => TypeInstitution.BorderPosts,
 				(24, _) => TypeInstitution.Other,
 
-				_ => notavailable is null
-					? new TypeInstitution?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new TypeInstitution?()
 			};
+
+			return notavailable is not null || typeinstitution is not null;
 		}
 	}
 }

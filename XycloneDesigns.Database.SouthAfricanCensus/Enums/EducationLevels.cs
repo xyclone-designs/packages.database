@@ -1,6 +1,4 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
@@ -33,7 +31,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class EducationLevelsExtensions
 	{
-		public static EducationLevels? FromInt(this EducationLevels _, int? value, Years year, out NotAvailables? notavailable)
+		public static bool FromInt(this EducationLevels _, int value, Years? year, out EducationLevels? educationlevels, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -43,9 +41,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			educationlevels = (value, year) switch
 			{
 				(01, Years._1996) => EducationLevels.NoSchooling,
 				(02, Years._1996) => EducationLevels.Grade00,
@@ -95,10 +91,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(22, _) => EducationLevels.MatricAndDoctors,
 				(23, _) => EducationLevels.OtherQualifications,
 
-				_ => notavailable is null
-					? new EducationLevels?()
-					: throw new ArgumentException(string.Format("EducationLevels for value '{0}' not found", value))
+				_ => new EducationLevels?()
 			};
+
+			return notavailable is not null || educationlevels is not null;
 		}
 	}
 }

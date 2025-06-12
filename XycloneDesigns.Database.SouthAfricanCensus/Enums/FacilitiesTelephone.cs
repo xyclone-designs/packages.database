@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum FacilitiesTelephone
 	{
 		HouseholdInThisDwellingCellularPhone,
@@ -19,7 +16,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class FacilitiesTelephonesExtensions
 	{
-		public static FacilitiesTelephone? FromInt(this FacilitiesTelephone _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this FacilitiesTelephone _, int value, Years? year, out FacilitiesTelephone? facilitiestelephone, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -28,9 +25,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			facilitiestelephone = (value, year) switch
 			{
 				(1, Years._1996) => FacilitiesTelephone.HouseholdInThisDwellingCellularPhone,
 				(2, Years._1996) => FacilitiesTelephone.HouseholdAtANeighbourNearby,
@@ -50,10 +45,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(7, _) => FacilitiesTelephone.HostelInstitution_TelephoneOnPremises,
 				(8, _) => FacilitiesTelephone.HostelInstitution_NoTelephoneOnPremises,
 
-				_ => notavailable is null
-					? new FacilitiesTelephone?()
-					: throw new ArgumentException(string.Format("Province for value '{0}' & year '{1}' not found", value, year))
+				_ => new FacilitiesTelephone?()
 			};
+
+			return notavailable is not null || facilitiestelephone is not null;
 		}
 	}
 }

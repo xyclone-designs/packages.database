@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum Religions
 	{
 		DutchReformedChurches,
@@ -74,7 +71,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class ReligionssExtensions
 	{
-		public static Religions? FromInt(this Religions _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this Religions _, int value, Years? year, out Religions? religions, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -84,9 +81,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			religions = (value, year) switch
 			{
 				(01, Years._1996) => Religions.DutchReformedChurches,
 				(02, Years._1996) => Religions.ReformedChurches,
@@ -153,10 +148,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(64, Years._1996) => Religions.Refused,
 				(65, Years._1996) => Religions.Other,
 
-				_ => notavailable is null
-					? new Religions?()
-					: throw new ArgumentException(string.Format("Religions for value '{0}' & year '{1}' not found", value, year))
+				_ => new Religions?()
 			};
+
+			return notavailable is not null || religions is not null;
 		}
 	}
 }

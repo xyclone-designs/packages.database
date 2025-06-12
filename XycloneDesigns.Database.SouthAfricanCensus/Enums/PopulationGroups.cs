@@ -1,10 +1,7 @@
-﻿using System;
-
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 {
-	[SQLite.StoreAsText]
 	public enum PopulationGroups
 	{
 		AfricanBlack,
@@ -15,7 +12,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 
 	public static class PopulationGroupssExtensions
 	{
-		public static PopulationGroups? FromInt(this PopulationGroups _, int? value, Years? year, out NotAvailables? notavailable)
+		public static bool FromInt(this PopulationGroups _, int value, Years? year, out PopulationGroups? populationgroups, out NotAvailables? notavailable)
 		{
 			notavailable = (value, year) switch
 			{
@@ -24,9 +21,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				_ => new NotAvailables?(),
 			};
 
-			if (value is null) return null;
-
-			return (value.Value, year) switch
+			populationgroups = (value, year) switch
 			{
 				(1, Years._1996) => PopulationGroups.AfricanBlack,
 				(2, Years._1996) => PopulationGroups.Coloured,
@@ -38,10 +33,10 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Enums
 				(3, _) => PopulationGroups.IndianAsian,
 				(4, _) => PopulationGroups.White,
 
-				_ => notavailable is null
-					? new PopulationGroups?()
-					: throw new ArgumentException(string.Format("PopulationGroup for value '{0}' & year '{1}' not found", value, year))
+				_ => new PopulationGroups?()
 			};
+
+			return notavailable is not null || populationgroups is not null;
 		}
 	}
 }
