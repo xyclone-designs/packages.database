@@ -1,7 +1,6 @@
 ﻿using System;
 
-using XycloneDesigns.Database.SouthAfricanCensus.Enums;
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+using XycloneDesigns.Database.SouthAfricanCensus.Models;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 {
@@ -23,39 +22,24 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		}
 
 		[SQLite.Column(SQL.Column_AgeOfDeceased)] public int? AgeOfDeceased { get; set; }
-		[SQLite.Column(SQL.Column_AnybodyDied)] public string? AnybodyDied
-		{	
-			get => _AnybodyDied?.ToString(); 
-			set => _AnybodyDied = Uncertain.From<bool>(value);
-		}
+		[SQLite.Column(SQL.Column_AnybodyDied)] public int? AnybodyDied { get; set; }
 		[SQLite.Column(SQL.Column_DateOfDeath)] public DateTime? DateOfDeath { get; set; }
-		[SQLite.Column(SQL.Column_Gender)] public string? Gender
-		{
-			get => _Gender?.ToString();
-			set => _Gender = Uncertain.From<Sexes>(value);
-		}
-		[SQLite.Column(SQL.Column_HowManyDied)] public string? HowManyDied
-		{
-			get => _HowManyDied?.ToString();
-			set => _HowManyDied = Uncertain.From<int>(value);
-		}
-		[SQLite.Column(SQL.Column_ImputationFlags)] public string? ImputationFlags
-		{
-			get => _ImputationFlags?.ToString();
-			set => _ImputationFlags = Uncertain.From<ImputationFlags>(value);
-		}
-		[SQLite.Column(SQL.Column_WasDeathFromViolence)] public bool? WasDeathFromViolence { get; set; }
-		[SQLite.Column(SQL.Column_WasPregnantWhenDeceased)] public string? WasPregnantWhenDeceased
-		{	
-			get => _WasPregnantWhenDeceased?.ToString(); 
-			set => _WasPregnantWhenDeceased = Uncertain.From<bool>(value);
-		}
+		[SQLite.Column(SQL.Column_Gender)] public int? Gender { get; set; }
+		[SQLite.Column(SQL.Column_HowManyDied)] public int? HowManyDied { get; set; }
+		[SQLite.Column(SQL.Column_ImputationFlags)] public int? ImputationFlags { get; set; }
+		[SQLite.Column(SQL.Column_WasDeathFromViolence)] public int? WasDeathFromViolence { get; set; }
+		[SQLite.Column(SQL.Column_WasPregnantWhenDeceased)] public int? WasPregnantWhenDeceased { get; set; }
 
-		
-		public Uncertain<bool>? _AnybodyDied;
-		public Uncertain<Sexes>? _Gender;
-		public Uncertain<int>? _HowManyDied;
-		public Uncertain<ImputationFlags>? _ImputationFlags;
-		public Uncertain<bool>? _WasPregnantWhenDeceased;
+		public void FromModel(RecordMortality record)
+		{
+			AgeOfDeceased = record.AgeOfDeceased?.ToInt(_ => _);
+			AnybodyDied = record.AnybodyDied?.ToInt();
+			DateOfDeath  = record.DateOfDeath;
+			Gender = record.Gender?.ToInt(_ => (int?)_);
+			HowManyDied = record.HowManyDied?.ToInt(_ => _);
+			ImputationFlags = record.ImputationFlags?.ToInt(_ => (int?)_);
+			WasDeathFromViolence  = record.WasDeathFromViolence?.ToInt();
+			WasPregnantWhenDeceased = record.WasPregnantWhenDeceased?.ToInt();
+		}
 	}
 }

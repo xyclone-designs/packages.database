@@ -1,5 +1,5 @@
-﻿
-using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+using XycloneDesigns.Database.SouthAfricanCensus.Models;
 using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
@@ -36,31 +36,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		[SQLite.Column(SQL.Column_FodderGrazingPastureGrassForAnimals)] public int? FodderGrazingPastureGrassForAnimals { get; set; }
 		[SQLite.Column(SQL.Column_OtherAgriculturalActivies)] public int? OtherAgriculturalActivies { get; set; }
 		[SQLite.Column(SQL.Column_NoAgriculturalActivies)] public int? NoAgriculturalActivies { get; set; }
-		[SQLite.Column(SQL.Column_Cattle)] public string? Cattle 
-		{ 
-			get => _Cattle?.ToString(); 
-			set => _Cattle= Uncertain.From<LivestockCounts>(value);
-		}
-		[SQLite.Column(SQL.Column_Sheep)] public string? Sheep 
-		{ 
-			get => _Sheep?.ToString(); 
-			set => _Sheep = Uncertain.From<LivestockCounts>(value);
-		}
-		[SQLite.Column(SQL.Column_Goats)] public string? Goats 
-		{ 
-			get => _Goats?.ToString(); 
-			set => _Goats = Uncertain.From<LivestockCounts>(value);
-		}
-		[SQLite.Column(SQL.Column_Pigs)] public string? Pigs 
-		{ 
-			get => _Pigs?.ToString(); 
-			set => _Pigs = Uncertain.From<LivestockCounts>(value);
-		}
-		[SQLite.Column(SQL.Column_OtherLivestocks)] public string? OtherLivestocks 
-		{ 
-			get => _OtherLivestocks?.ToString(); 
-			set => _OtherLivestocks = Uncertain.From<LivestockCounts>(value);
-		}
+		[SQLite.Column(SQL.Column_Cattle)] public int? Cattle { get; set; }
+		[SQLite.Column(SQL.Column_Sheep)] public int? Sheep { get; set; }
+		[SQLite.Column(SQL.Column_Goats)] public int? Goats { get; set; }
+		[SQLite.Column(SQL.Column_Pigs)] public int? Pigs { get; set; }
+		[SQLite.Column(SQL.Column_OtherLivestocks)] public int? OtherLivestocks { get; set; }
 		[SQLite.Column(SQL.Column_Farmland)] public int? Farmland { get; set; }
 		[SQLite.Column(SQL.Column_BackyardOrSchool)] public int? BackyardOrSchool { get; set; }
 		[SQLite.Column(SQL.Column_CommunalOrTribalLand)] public int? CommunalOrTribalLand { get; set; }
@@ -71,5 +51,27 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public Uncertain<LivestockCounts>? _Goats;
 		public Uncertain<LivestockCounts>? _Pigs;
 		public Uncertain<LivestockCounts>? _OtherLivestocks;
+
+		public void FromModel(RecordHousehold record)
+		{
+			base.FromModel(record);
+
+			LivestockProduction = record.AgriculturalLand?.LivestockProduction;
+			Poultry = record.AgriculturalLand?.Poultry;
+			VegetableProduction = record.AgriculturalLand?.VegetableProduction;
+			OtherCrops = record.AgriculturalLand?.OtherCrops;
+			FodderGrazingPastureGrassForAnimals = record.AgriculturalLand?.FodderGrazingPastureGrassForAnimals;
+			OtherAgriculturalActivies = record.AgriculturalLand?.OtherAgriculturalActivies;
+			NoAgriculturalActivies = record.AgriculturalLand?.NoAgriculturalActivies;
+			Cattle = record.AgriculturalLand?.Cattle?.ToInt(_ => (int?)_);
+			Sheep = record.AgriculturalLand?.Sheep?.ToInt(_ => (int?)_);
+			Goats = record.AgriculturalLand?.Goats?.ToInt(_ => (int?)_);
+			Pigs = record.AgriculturalLand?.Pigs?.ToInt(_ => (int?)_);
+			OtherLivestocks = record.AgriculturalLand?.OtherLivestocks?.ToInt(_ => (int?)_);
+			Farmland = record.AgriculturalLand?.Farmland;
+			BackyardOrSchool = record.AgriculturalLand?.BackyardOrSchool;
+			CommunalOrTribalLand = record.AgriculturalLand?.CommunalOrTribalLand;
+			OtherPlaceOfAgriculturalActivies = record.AgriculturalLand?.OtherPlaceOfAgriculturalActivies;
+		}
 	}
 }

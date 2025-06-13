@@ -27,6 +27,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include=".sources\1996\metadata.household.txt" />
+    <Content Include=".sources\1996\metadata.person.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".sources\SA Census 1996 Metadata Household.pdf" />
+    <None Include=".sources\SA Census 1996 Metadata Person.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="XycloneDesigns.Extensions.SQLite" Version="1.0.0" />
   </ItemGroup>
 

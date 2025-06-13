@@ -56,6 +56,33 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Structs
 		public bool Unspecified { get; set; }
 		public NotAvailables? NotAvailable { get; set; }
 
+		public int? ToInt(Func<TValue?, int?> convert)
+		{
+			if (Unspecified)
+				return 0;
+
+			if (NotAvailable.HasValue)
+				return (int)NotAvailable.Value;
+
+			if (convert.Invoke(Value) is int value)
+				return value;
+
+			return null;
+		}
+		public int? ToInt(Func<bool?, int?>? convert = null)
+		{
+			if (Unspecified)
+				return 0;
+
+			if (NotAvailable.HasValue)
+				return (int)NotAvailable.Value;
+
+			if (Value is bool _bool)
+				return _bool ? 2 : 1; 
+
+			return null;
+		}
+
 		public override string ToString()
 		{
 			if (Unspecified)

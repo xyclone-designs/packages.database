@@ -1,4 +1,6 @@
-﻿using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+﻿using System.Diagnostics;
+using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+using XycloneDesigns.Database.SouthAfricanCensus.Models;
 using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
@@ -46,144 +48,144 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		}
 
 		[SQLite.Column(SQL.Column_Number)] public int? Number { get; set; }
-		[SQLite.Column(SQL.Column_Province)] public string? Province
+		[SQLite.Column(SQL.Column_Province)] public int? Province
 		{
-			get => _Province?.ToString();
+			get => _Province?.ToInt(_ => (int?)_);
 			set => _Province = Uncertain.From<Provinces>(value);
 		}
 		[SQLite.Column(SQL.Column_CouncilCodeDistrict)] public int? CouncilCodeDistrict { get; set; }
 		[SQLite.Column(SQL.Column_CouncilCodeMagisterial)] public int? CouncilCodeMagisterial { get; set; }
 		[SQLite.Column(SQL.Column_CouncilCodeTransitionalLocalRural)] public int? CouncilCodeTransitionalLocalRural { get; set; }
-		[SQLite.Column(SQL.Column_Dwelling)] public string? Dwelling
+		[SQLite.Column(SQL.Column_Dwelling)] public int? Dwelling
 		{
-			get => _Dwelling?.ToString();
+			get => _Dwelling?.ToInt(_ => (int?)_);
 			set => _Dwelling = Uncertain.From<TypeDwelling>(value);
 		}
-		[SQLite.Column(SQL.Column_DwellingsOwned)] public string? DwellingsOwned
+		[SQLite.Column(SQL.Column_DwellingsOwned)] public bool? DwellingsOwned
 		{ 
-			get => _DwellingsOwned?.ToString(); 
-			set => _DwellingsOwned = Uncertain.From<bool> (value); 
+			get => _DwellingsOwned?.ToInt(_ => (int?)_);
+			set => _DwellingsOwned = Uncertain.From<bool>(value); 
 		}
-		[SQLite.Column(SQL.Column_FacilitiesToilet)] public string? FacilitiesToilet
+		[SQLite.Column(SQL.Column_FacilitiesToilet)] public int? FacilitiesToilet
 		{
-			get => _FacilitiesToilet?.ToString();
+			get => _FacilitiesToilet?.ToInt(_ => (int?)_);
 			set => _FacilitiesToilet = Uncertain.From<FacilitiesToilet>(value);
 		}
-		[SQLite.Column(SQL.Column_FacilitiesTelephone)] public string? FacilitiesTelephone
+		[SQLite.Column(SQL.Column_FacilitiesTelephone)] public int? FacilitiesTelephone
 		{
-			get => _FacilitiesTelephone?.ToString();
+			get => _FacilitiesTelephone?.ToInt(_ => (int?)_);
 			set => _FacilitiesTelephone = Uncertain.From<FacilitiesTelephone>(value);
 		}
-		[SQLite.Column(SQL.Column_FacilitiesRefuseDisposal)] public string? FacilitiesRefuseDisposal
+		[SQLite.Column(SQL.Column_FacilitiesRefuseDisposal)] public int? FacilitiesRefuseDisposal
 		{
-			get => _FacilitiesRefuseDisposal?.ToString();
+			get => _FacilitiesRefuseDisposal?.ToInt(_ => (int?)_);
 			set => _FacilitiesRefuseDisposal = Uncertain.From<FacilitiesRefuseDisposal>(value);
 		}
-		[SQLite.Column(SQL.Column_HeadOf_Age)] public string? HeadOf_Age
+		[SQLite.Column(SQL.Column_HeadOf_Age)] public int? HeadOf_Age
 		{
-			get => _HeadOf_Age?.ToString();
+			get => _HeadOf_Age?.ToInt(_ => (int?)_);
 			set => _HeadOf_Age = Uncertain.From<int>(value);
 		}
-		[SQLite.Column(SQL.Column_HeadOf_Education)] public string? HeadOf_Education
+		[SQLite.Column(SQL.Column_HeadOf_Education)] public int? HeadOf_Education
 		{
-			get => _HeadOf_Education?.ToString();
+			get => _HeadOf_Education?.ToInt(_ => (int?)_);
 			set => _HeadOf_Education = Uncertain.From<EducationLevels>(value);
 		}
-		[SQLite.Column(SQL.Column_HeadOf_EmploymentStatus)] public string? HeadOf_EmploymentStatus
+		[SQLite.Column(SQL.Column_HeadOf_EmploymentStatus)] public int? HeadOf_EmploymentStatus
 		{
-			get => _HeadOf_EmploymentStatus?.ToString();
+			get => _HeadOf_EmploymentStatus?.ToInt(_ => (int?)_);
 			set => _HeadOf_EmploymentStatus = Uncertain.From<EmploymentStatuses>(value);
 		}
-		[SQLite.Column(SQL.Column_HeadOf_IncomeLevel)] public string? HeadOf_IncomeLevel
+		[SQLite.Column(SQL.Column_HeadOf_IncomeLevel)] public int? HeadOf_IncomeLevel
 		{
-			get => _HeadOf_IncomeLevel?.ToString();
+			get => _HeadOf_IncomeLevel?.ToInt(_ => (int?)_);
 			set => _HeadOf_IncomeLevel = Uncertain.From<IncomeLevelsMonthly>(value);
 		}
 		[SQLite.Column(SQL.Column_HeadOf_Occupation)] public int? HeadOf_Occupation { get; set; }
-		[SQLite.Column(SQL.Column_HeadOf_Race)] public string? HeadOf_Race
+		[SQLite.Column(SQL.Column_HeadOf_Race)] public int? HeadOf_Race
 		{
-			get => _HeadOf_Race?.ToString();
+			get => _HeadOf_Race?.ToInt(_ => (int?)_);
 			set => _HeadOf_Race = Uncertain.From<PopulationGroups>(value);
 		}
-		[SQLite.Column(SQL.Column_HeadOf_Sex)] public string? HeadOf_Sex
+		[SQLite.Column(SQL.Column_HeadOf_Sex)] public int? HeadOf_Sex
 		{
-			get => _HeadOf_Sex?.ToString();
+			get => _HeadOf_Sex?.ToInt(_ => (int?)_);
 			set => _HeadOf_Sex = Uncertain.From<Sexes>(value);
 		}
-		[SQLite.Column(SQL.Column_HighestIncomeIn_Gender)] public string? HighestIncomeIn_Gender
+		[SQLite.Column(SQL.Column_HighestIncomeIn_Gender)] public int? HighestIncomeIn_Gender
 		{
-			get => _HighestIncomeIn_Gender?.ToString();
+			get => _HighestIncomeIn_Gender?.ToInt(_ => (int?)_);
 			set => _HighestIncomeIn_Gender = Uncertain.From<Sexes>(value);
 		}
-		[SQLite.Column(SQL.Column_HighestIncomeIn_Race)] public string? HighestIncomeIn_Race 
+		[SQLite.Column(SQL.Column_HighestIncomeIn_Race)] public int? HighestIncomeIn_Race 
 		{
-			get => _HighestIncomeIn_Race ?.ToString();
+			get => _HighestIncomeIn_Race ?.ToInt(_ => (int?)_);
 			set => _HighestIncomeIn_Race  = Uncertain.From<PopulationGroups>(value);
 		}
-		[SQLite.Column(SQL.Column_HouseholdSize)] public string? HouseholdSize
+		[SQLite.Column(SQL.Column_HouseholdSize)] public int? HouseholdSize
 		{
-			get => _HouseholdSize?.ToString();
+			get => _HouseholdSize?.ToInt(_ => _);
 			set => _HouseholdSize = Uncertain.From<int>(value);
 		}
-		[SQLite.Column(SQL.Column_Income)] public string? Income
+		[SQLite.Column(SQL.Column_Income)] public int? Income
 		{
-			get => _Income?.ToString();
+			get => _Income?.ToInt(_ => (int?)_);
 			set => _Income = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
 		}
-		[SQLite.Column(SQL.Column_IncomeAdditional)] public string? IncomeAdditional
+		[SQLite.Column(SQL.Column_IncomeAdditional)] public int? IncomeAdditional
 		{
-			get => _IncomeAdditional?.ToString();
+			get => _IncomeAdditional?.ToInt(_ => (int?)_);
 			set => _IncomeAdditional = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
 		}
-		[SQLite.Column(SQL.Column_IncomeReceivedRemittances)] public string? IncomeReceivedRemittances
+		[SQLite.Column(SQL.Column_IncomeReceivedRemittances)] public int? IncomeReceivedRemittances
 		{
-			get => _IncomeReceivedRemittances?.ToString();
+			get => _IncomeReceivedRemittances?.ToInt(_ => (int?)_);
 			set => _IncomeReceivedRemittances = Uncertain.From<IncomeLevelsMonthlyHousehold>(value);
 		}
-		[SQLite.Column(SQL.Column_Migrant)] public string? Migrant
+		[SQLite.Column(SQL.Column_Migrant)] public int? Migrant
 		{
-			get => _Migrant?.ToString();
+			get => _Migrant?.ToInt(_ => (int?)_);
 			set => _Migrant = Uncertain.From<bool>(value);
 		}
-		[SQLite.Column(SQL.Column_NumberOf_MigrantWorkers)] public string? NumberOf_MigrantWorkers
+		[SQLite.Column(SQL.Column_NumberOf_MigrantWorkers)] public int? NumberOf_MigrantWorkers
 		{
-			get => _NumberOf_MigrantWorkers?.ToString();
+			get => _NumberOf_MigrantWorkers?.ToInt(_ => (int?)_);
 			set => _NumberOf_MigrantWorkers = Uncertain.From<int>(value);
 		}
-		[SQLite.Column(SQL.Column_NumberOf_HouseholdsSharingOneRoom)] public string? NumberOf_HouseholdsSharingOneRoom
+		[SQLite.Column(SQL.Column_NumberOf_HouseholdsSharingOneRoom)] public int? NumberOf_HouseholdsSharingOneRoom
 		{
-			get => _NumberOf_HouseholdsSharingOneRoom?.ToString();
+			get => _NumberOf_HouseholdsSharingOneRoom?.ToInt(_ => (int?)_);
 			set => _NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(value);
 		}
 		[SQLite.Column(SQL.Column_QuestionType)] public string? QuestionType { get; set; }
-		[SQLite.Column(SQL.Column_Rooms)] public string? Rooms
+		[SQLite.Column(SQL.Column_Rooms)] public int? Rooms
 		{
-			get => _Rooms?.ToString();
+			get => _Rooms?.ToInt(_ => _);
 			set => _Rooms = Uncertain.From<int>(value);
 		}
-		[SQLite.Column(SQL.Column_SourceOfWater)] public string? SourceOfWater
+		[SQLite.Column(SQL.Column_SourceOfWater)] public int? SourceOfWater
 		{
-			get => _SourceOfWater?.ToString();
+			get => _SourceOfWater?.ToInt(_ => (int?)_);
 			set => _SourceOfWater = Uncertain.From<SourceOfWater>(value);
 		}
-		[SQLite.Column(SQL.Column_SourceOfFuelCooking)] public string? SourceOfFuelCooking
+		[SQLite.Column(SQL.Column_SourceOfFuelCooking)] public int? SourceOfFuelCooking
 		{
-			get => _SourceOfFuelCooking?.ToString();
+			get => _SourceOfFuelCooking?.ToInt(_ => (int?)_);
 			set => _SourceOfFuelCooking = Uncertain.From<SourceOfFuel>(value);
 		}
-		[SQLite.Column(SQL.Column_SourceOfFuelHeating)] public string? SourceOfFuelHeating
+		[SQLite.Column(SQL.Column_SourceOfFuelHeating)] public int? SourceOfFuelHeating
 		{
-			get => _SourceOfFuelHeating?.ToString();
+			get => _SourceOfFuelHeating?.ToInt(_ => (int?)_);
 			set => _SourceOfFuelHeating = Uncertain.From<SourceOfFuel>(value);
 		}
-		[SQLite.Column(SQL.Column_SourceOfFuelLighting)] public string? SourceOfFuelLighting
+		[SQLite.Column(SQL.Column_SourceOfFuelLighting)] public int? SourceOfFuelLighting
 		{
-			get => _SourceOfFuelLighting?.ToString();
+			get => _SourceOfFuelLighting?.ToInt(_ => (int?)_);
 			set => _SourceOfFuelLighting = Uncertain.From<SourceOfFuel>(value);
 		}
-		[SQLite.Column(SQL.Column_Urban)] public string? Urban
+		[SQLite.Column(SQL.Column_Urban)] public int? Urban
 		{
-			get => _Urban?.ToString();
+			get => _Urban?.ToInt(_ => (int?)_);
 			set => _Urban = Uncertain.From<bool>(value);
 		}
 
@@ -215,5 +217,15 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public Uncertain<SourceOfFuel>? _SourceOfFuelHeating;
 		public Uncertain<SourceOfFuel>? _SourceOfFuelLighting;
 		public Uncertain<bool>? _Urban;
+
+		public void FromModel(RecordHousehold record)
+		{
+			CouncilCodeDistrict = record.Location?.CouncilCodeDistrict;
+			CouncilCodeMagisterial = record.Location?.CouncilCodeMagisterial;
+			CouncilCodeTransitionalLocalRural = record.Location?.CouncilCodeTransitionalLocalRural;
+			Province = record.Location?.Province?.ToInt(_ => (int?)_);
+			Urban = record.Location?.Urban?.ToInt(_ => _);
+
+		}
 	}
 }

@@ -1,10 +1,9 @@
-﻿using XycloneDesigns.Database.SouthAfricanCensus.Enums;
-using XycloneDesigns.Database.SouthAfricanCensus.Structs;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Models;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 {
 	[SQLite.Table(SQL.Table)]
-    public class RecordsPerson : Records
+	public class RecordsPerson : Records
 	{
 		public static class SQL
 		{
@@ -62,251 +61,112 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			public const string Column_UsualResidenceYearMoved = "usualresidenceyearmoved";
 		}
 
-		[SQLite.Column(SQL.Column_Age)] public string? Age 
-		{ 
-			get => _Age?.ToString();
-			set => _Age = Uncertain.From<int>(value);
-		}
-		[SQLite.Column(SQL.Column_AgeOfMotherAtFirstBorn)] public string? AgeOfMotherAtFirstBorn
-		{
-			get => _AgeOfMotherAtFirstBorn?.ToString();
-			set => _AgeOfMotherAtFirstBorn = Uncertain.From<int>(value);
-		}
-		[SQLite.Column(SQL.Column_ChildrenBorn)] public string? ChildrenBorn
-		{
-			get => _ChildrenBorn?.ToString();
-			set => _ChildrenBorn = Uncertain.From<int>(value);
-		}
-		[SQLite.Column(SQL.Column_ChildrenAlive)] public string? ChildrenAlive
-		{
-			get => _ChildrenAlive?.ToString();
-			set => _ChildrenAlive = Uncertain.From<int>(value);
-		}
-		[SQLite.Column(SQL.Column_Citizenship)] public string? Citizenship
-		{
-			get => _Citizenship?.ToString();
-			set => _Citizenship = Uncertain.From<CitizenshipStatus>(value);
-		}
+		[SQLite.Column(SQL.Column_Age)] public int? Age { get; set; }
+		[SQLite.Column(SQL.Column_AgeOfMotherAtFirstBorn)] public int? AgeOfMotherAtFirstBorn { get; set; }
+		[SQLite.Column(SQL.Column_ChildrenBorn)] public int? ChildrenBorn { get; set; }
+		[SQLite.Column(SQL.Column_ChildrenAlive)] public int? ChildrenAlive { get; set; }
+		[SQLite.Column(SQL.Column_Citizenship)] public int? Citizenship { get; set; }
 		[SQLite.Column(SQL.Column_CouncilCodeDistrict)] public int? CouncilCodeDistrict { get; set; }
 		[SQLite.Column(SQL.Column_CouncilCodeMagisterial)] public int? CouncilCodeMagisterial { get; set; }
 		[SQLite.Column(SQL.Column_CouncilCodeTransitionalLocalRural)] public int? CouncilCodeTransitionalLocalRural { get; set; }
-		[SQLite.Column(SQL.Column_CountryBirth)] public string? CountryBirth
-		{
-			get => _CountryBirth?.ToString();
-			set => _CountryBirth = Uncertain.From<Countries>(value);
-		}
-		[SQLite.Column(SQL.Column_CountryCitizenOther)] public string? CountryCitizenOther
-		{
-			get => _CountryCitizenOther?.ToString();
-			set => _CountryCitizenOther = Uncertain.From<Countries>(value);
-		}
-		[SQLite.Column(SQL.Column_CountryCitizenSouthAfrica)] public string? CountryCitizenSouthAfrica
-		{
-			get => _CountryCitizenSouthAfrica?.ToString();
-			set => _CountryCitizenSouthAfrica = Uncertain.From<Countries>(value);
-		}
-		[SQLite.Column(SQL.Column_Disability)] public string? Disability
-		{
-			get => _Disability?.ToString();
-			set => _Disability = Uncertain.From<TypeDisability>(value);
-		}
-		[SQLite.Column(SQL.Column_DisabilitySight)] public string? DisabilitySight
-		{
-			get => _DisabilitySight?.ToString();
-			set => _DisabilitySight = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_DisabilityHearing)] public string? DisabilityHearing
-		{
-			get => _DisabilityHearing?.ToString();
-			set => _DisabilityHearing = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_DisabilityPhysical)] public string? DisabilityPhysical
-		{
-			get => _DisabilityPhysical?.ToString();
-			set => _DisabilityPhysical = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_DisabilityMental)] public string? DisabilityMental
-		{
-			get => _DisabilityMental?.ToString();
-			set => _DisabilityMental = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_FullOrPartTime)] public string? FullOrPartTime
-		{
-			get => _FullOrPartTime?.ToString();
-			set => _FullOrPartTime = Uncertain.From<bool>(value);
-		}
+		[SQLite.Column(SQL.Column_CountryBirth)] public int? CountryBirth { get; set; }
+		[SQLite.Column(SQL.Column_CountryCitizenOther)] public int? CountryCitizenOther { get; set; }
+		[SQLite.Column(SQL.Column_CountryCitizenSouthAfrica)] public int? CountryCitizenSouthAfrica { get; set; }
+		[SQLite.Column(SQL.Column_Disability)] public int? Disability { get; set; }
+		[SQLite.Column(SQL.Column_DisabilitySight)] public int? DisabilitySight { get;set; }
+		[SQLite.Column(SQL.Column_DisabilityHearing)] public int? DisabilityHearing { get;set; }
+		[SQLite.Column(SQL.Column_DisabilityPhysical)] public int? DisabilityPhysical { get;set; }
+		[SQLite.Column(SQL.Column_DisabilityMental)] public int? DisabilityMental { get;set; }
+		[SQLite.Column(SQL.Column_FullOrPartTime)] public int? FullOrPartTime { get;set; }
 		[SQLite.Column(SQL.Column_EmploymentMagisterialCode)] public int? EmploymentMagisterialCode { get; set; }
-		[SQLite.Column(SQL.Column_HighestSchoolClass1)] public string? HighestSchoolClass1
-		{
-			get => _HighestSchoolClass1?.ToString();
-			set => _HighestSchoolClass1 = Uncertain.From<EducationLevels>(value);
-		}
-		[SQLite.Column(SQL.Column_HighestSchoolClass2)] public string? HighestSchoolClass2 
-		{
-			get => _HighestSchoolClass2 ?.ToString();
-			set => _HighestSchoolClass2  = Uncertain.From<EducationLevels>(value);
-		}
-		[SQLite.Column(SQL.Column_HighestQualification1)] public string? HighestQualification1 
-		{
-			get => _HighestQualification1 ?.ToString();
-			set => _HighestQualification1  = Uncertain.From<EducationFields>(value);
-		}
-		[SQLite.Column(SQL.Column_HighestQualification2)] public string? HighestQualification2 
-		{
-			get => _HighestQualification2 ?.ToString();
-			set => _HighestQualification2  = Uncertain.From<EducationFields>(value);
-		}
-		[SQLite.Column(SQL.Column_Income)] public string? Income 
-		{
-			get => _Income ?.ToString();
-			set => _Income  = Uncertain.From<IncomeLevelsMonthly>(value);
-		}
+		[SQLite.Column(SQL.Column_HighestSchoolClass1)] public int? HighestSchoolClass1 { get; set; }
+		[SQLite.Column(SQL.Column_HighestSchoolClass2)] public int? HighestSchoolClass2 { get; set; }
+		[SQLite.Column(SQL.Column_HighestQualification1)] public int? HighestQualification1 { get; set; }
+		[SQLite.Column(SQL.Column_HighestQualification2)] public int? HighestQualification2 { get; set; }
+		[SQLite.Column(SQL.Column_Income)] public int? Income { get; set; }
 		[SQLite.Column(SQL.Column_IndustryCode)] public int? IndustryCode { get; set; }
-		[SQLite.Column(SQL.Column_IsAliveMother)] public string? IsAliveMother
-		{
-			get => _IsAliveMother?.ToString();
-			set => _IsAliveMother = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_IsAliveFather)] public string? IsAliveFather
-		{
-			get => _IsAliveFather?.ToString();
-			set => _IsAliveFather = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_Language1)] public string? Language1
-		{
-			get => _Language1?.ToString();
-			set => _Language1 = Uncertain.From<Languages>(value);
-		}
-		[SQLite.Column(SQL.Column_Language2)] public string? Language2 
-		{
-			get => _Language2 ?.ToString();
-			set => _Language2  = Uncertain.From<Languages>(value);
-		}
-		[SQLite.Column(SQL.Column_MaritalStatus)] public string? MaritalStatus 
-		{
-			get => _MaritalStatus ?.ToString();
-			set => _MaritalStatus  = Uncertain.From<MaritalStatuses>(value);
-		}
-		[SQLite.Column(SQL.Column_MigrantWorker)] public string? MigrantWorker 
-		{ 
-			get => _MigrantWorker?.ToString();
-			set => _MigrantWorker = Uncertain.From<bool>(value);
-		}
-		[SQLite.Column(SQL.Column_NumberBirthsLast12Months)] public string? NumberBirthsLast12Months
-		{
-			get => _NumberBirthsLast12Months?.ToString();
-			set => _NumberBirthsLast12Months = Uncertain.From<int>(value);
-		}
+		[SQLite.Column(SQL.Column_IsAliveMother)] public int? IsAliveMother { get; set; }
+		[SQLite.Column(SQL.Column_IsAliveFather)] public int? IsAliveFather { get; set; }
+		[SQLite.Column(SQL.Column_Language1)] public int? Language1 { get; set; }
+		[SQLite.Column(SQL.Column_Language2)] public int? Language2 { get; set; }
+		[SQLite.Column(SQL.Column_MaritalStatus)] public int? MaritalStatus { get; set; }
+		[SQLite.Column(SQL.Column_MigrantWorker)] public int? MigrantWorker { get; set; }
+		[SQLite.Column(SQL.Column_NumberBirthsLast12Months)] public int? NumberBirthsLast12Months { get; set; }
 		[SQLite.Column(SQL.Column_NumberHousehold)] public int? NumberHousehold { get; set; }
 		[SQLite.Column(SQL.Column_NumberPerson)] public int? NumberPerson { get; set; }
 		[SQLite.Column(SQL.Column_OccupationCode)] public int? OccupationCode { get; set; }
 		[SQLite.Column(SQL.Column_OccupationCodePrevious)] public int? OccupationCodePrevious { get; set; }
-		[SQLite.Column(SQL.Column_Province)] public string? Province
-		{
-			get => _Province?.ToString();
-			set => _Province = Uncertain.From<Provinces>(value);
-		}
+		[SQLite.Column(SQL.Column_Province)] public int? Province { get; set; }
 		[SQLite.Column(SQL.Column_PreviousResidenceMagesterialCode)] public int? PreviousResidenceMagesterialCode { get; set; }
-		[SQLite.Column(SQL.Column_Race)] public string? Race
-		{
-			get => _Race?.ToString();
-			set => _Race = Uncertain.From<PopulationGroups>(value);
-		}
-		[SQLite.Column(SQL.Column_Relationship)] public string? Relationship 
-		{
-			get => _Relationship ?.ToString();
-			set => _Relationship  = Uncertain.From<Relations>(value);
-		}
-		[SQLite.Column(SQL.Column_Religion)] public string? Religion 
-		{
-			get => _Religion ?.ToString();
-			set => _Religion  = Uncertain.From<Religions>(value);
-		}
-		[SQLite.Column(SQL.Column_TypeInstitution)] public string? TypeInstitution 
-		{
-			get => _TypeInstitution ?.ToString();
-			set => _TypeInstitution  = Uncertain.From<TypeInstitution>(value);
-		}
-		[SQLite.Column(SQL.Column_TypeQuestionnaire)] public string? TypeQuestionnaire 
-		{
-			get => _TypeQuestionnaire ?.ToString();
-			set => _TypeQuestionnaire  = Uncertain.From<TypeQuestionnaireHouseholds>(value);
-		}
-		[SQLite.Column(SQL.Column_Sex)] public string? Sex 
-		{
-			get => _Sex ?.ToString();
-			set => _Sex  = Uncertain.From<Sexes>(value);
-		}
-		[SQLite.Column(SQL.Column_StatusEmployment)] public string? StatusEmployment 
-		{
-			get => _StatusEmployment ?.ToString();
-			set => _StatusEmployment  = Uncertain.From<EmploymentStatuses>(value);
-		}
-		[SQLite.Column(SQL.Column_StatusStudying)] public string? StatusStudying 
-		{
-			get => _StatusStudying ?.ToString();
-			set => _StatusStudying  = Uncertain.From<StatusStudying>(value);
-		}
-		[SQLite.Column(SQL.Column_StatusWork)] public string? StatusWork 
-		{
-			get => _StatusWork ?.ToString();
-			set => _StatusWork  = Uncertain.From<StatusWork>(value);
-		}
-		[SQLite.Column(SQL.Column_Urban)] public string? Urban
-		{
-			get => _Urban?.ToString();
-			set => _Urban = Uncertain.From<bool>(value);
-		}
+		[SQLite.Column(SQL.Column_Race)] public int? Race { get; set; }
+		[SQLite.Column(SQL.Column_Relationship)] public int? Relationship { get; set; }
+		[SQLite.Column(SQL.Column_Religion)] public int? Religion { get; set; }
+		[SQLite.Column(SQL.Column_TypeInstitution)] public int? TypeInstitution { get; set; }
+		[SQLite.Column(SQL.Column_TypeQuestionnaire)] public int? TypeQuestionnaire { get; set; }
+		[SQLite.Column(SQL.Column_Sex)] public int? Sex { get; set; }
+		[SQLite.Column(SQL.Column_StatusEmployment)] public int? StatusEmployment { get; set; }
+		[SQLite.Column(SQL.Column_StatusStudying)] public int? StatusStudying { get; set; }
+		[SQLite.Column(SQL.Column_StatusWork)] public int? StatusWork { get; set; }
+		[SQLite.Column(SQL.Column_Urban)] public int? Urban { get; set; }
 		[SQLite.Column(SQL.Column_UsualResidenceMagesterialCode)] public int? UsualResidenceMagesterialCode { get; set; }
-		[SQLite.Column(SQL.Column_UsualResidencePlaceOf)] public string? UsualResidencePlaceOf 
+		[SQLite.Column(SQL.Column_UsualResidencePlaceOf)] public int? UsualResidencePlaceOf { get; set; }
+		[SQLite.Column(SQL.Column_UsualResidenceYearMoved)] public int? UsualResidenceYearMoved { get; set; }
+
+		public void FromModel(RecordPerson record)
 		{
-			get => _UsualResidencePlaceOf ?.ToString();
-			set => _UsualResidencePlaceOf  = Uncertain.From<UsualResidence>(value);
+			CouncilCodeDistrict = record.Location?.CouncilCodeDistrict;
+			CouncilCodeMagisterial = record.Location?.CouncilCodeMagisterial;
+			CouncilCodeTransitionalLocalRural= record.Location?.CouncilCodeTransitionalLocalRural;
+			Province = record.Location?.Province?.ToInt(_ => (int?)_);
+			Urban = record.Location?.Urban?.ToInt(_ => _);
+
+			Disability = record.Disabilities?.Type?.ToInt(_ => (int?)_);
+			DisabilitySight = record.Disabilities?.Sight?.ToInt();
+			DisabilityHearing = record.Disabilities?.Hearing?.ToInt();
+			DisabilityPhysical = record.Disabilities?.Physical?.ToInt();
+			DisabilityMental = record.Disabilities?.Mental?.ToInt();
+
+			TypeInstitution = record.Metadata?.TypeInstitution?.ToInt(_ => (int?)_);
+			TypeQuestionnaire = record.Metadata?.TypeQuestionnaire?.ToInt(_ => (int?)_);
+
+			AgeOfMotherAtFirstBorn = record.Motherhood?.AgeAtFirstBorn?.ToInt(_ => _);
+			ChildrenBorn = record.Motherhood?.ChildrenBorn?.ToInt(_ => _);
+			ChildrenAlive = record.Motherhood?.ChildrenAlive?.ToInt(_ => _);
+			NumberBirthsLast12Months = record.Motherhood?.NumberBirthsLast12Months?.ToInt(_ => _);
+
+			Age = record.Personhood?.Age?.ToInt(_ => _);
+			Citizenship = record.Personhood?.Citizenship?.ToInt(_ => (int?)_);
+			CountryBirth = record.Personhood?.CountryBirth?.ToInt(_ => (int?)_);
+			CountryCitizenOther = record.Personhood?.CountryCitizenOther?.ToInt(_ => (int?)_);
+			CountryCitizenSouthAfrica = record.Personhood?.CountryCitizenSouthAfrica?.ToInt(_ => (int?)_);
+			HighestSchoolClass1 = record.Personhood?.HighestSchoolClass1?.ToInt(_ => (int?)_);
+			HighestSchoolClass2 = record.Personhood?.HighestSchoolClass2?.ToInt(_ => (int?)_);
+			HighestQualification1 = record.Personhood?.HighestQualification1?.ToInt(_ => (int?)_);
+			HighestQualification2 = record.Personhood?.HighestQualification2?.ToInt(_ => (int?)_);
+			IsAliveMother = record.Personhood?.IsAliveMother?.ToInt();
+			IsAliveFather = record.Personhood?.IsAliveFather?.ToInt();
+			Language1 = record.Personhood?.Language1?.ToInt(_ => (int?)_);
+			Language2 = record.Personhood?.Language2?.ToInt(_ => (int?)_);
+			MaritalStatus = record.Personhood?.MaritalStatus?.ToInt(_ => (int?)_);
+			Race = record.Personhood?.Race?.ToInt(_ => (int?)_);
+			Religion = record.Personhood?.Religion?.ToInt(_ => (int?)_);
+			Sex = record.Personhood?.Sex?.ToInt(_ => (int?)_);
+			StatusEmployment = record.Personhood?.StatusEmployment?.ToInt(_ => (int?)_);
+			StatusStudying = record.Personhood?.StatusStudying?.ToInt(_ => (int?)_);
+			StatusWork = record.Personhood?.StatusWork?.ToInt(_ => (int?)_);
+
+			OccupationCode = record.Occupation?.Code;
+			EmploymentMagisterialCode = record.Occupation?.CodeEmploymentMagisterial;
+			IndustryCode = record.Occupation?.CodeIndustry;
+			OccupationCodePrevious = record.Occupation?.CodePrevious;
+			FullOrPartTime = record.Occupation?.FullOrPartTime?.ToInt();
+			Income = record.Occupation?.Income?.ToInt(_ => (int?)_);
+			MigrantWorker = record.Occupation?.IsMigrantWorker?.ToInt();
+
+			PreviousResidenceMagesterialCode = record.Residence?.PreviousMagesterialCode;
+			UsualResidenceMagesterialCode = record.Residence?.UsualMagesterialCode;
+			UsualResidencePlaceOf = record.Residence?.UsualPlaceOf?.ToInt(_ => (int?)_);
+			UsualResidenceYearMoved = record.Residence?.UsualYearMoved?.ToInt(_ => _);
 		}
-		[SQLite.Column(SQL.Column_UsualResidenceYearMoved)] public string? UsualResidenceYearMoved
-		{
-			get => _UsualResidenceYearMoved?.ToString();
-			set => _UsualResidenceYearMoved = Uncertain.From<int>(value);
-		}
-		
-		public Uncertain<int>? _Age;
-		public Uncertain<int>? _AgeOfMotherAtFirstBorn;
-		public Uncertain<int>? _ChildrenBorn;
-		public Uncertain<int>? _ChildrenAlive;
-		public Uncertain<CitizenshipStatus>? _Citizenship;
-		public Uncertain<Countries>? _CountryBirth;
-		public Uncertain<Countries>? _CountryCitizenOther;
-		public Uncertain<Countries>? _CountryCitizenSouthAfrica;
-		public Uncertain<TypeDisability>? _Disability;
-		public Uncertain<bool>? _DisabilitySight;
-		public Uncertain<bool>? _DisabilityHearing;
-		public Uncertain<bool>? _DisabilityPhysical;
-		public Uncertain<bool>? _DisabilityMental;
-		public Uncertain<bool>? _FullOrPartTime;
-		public Uncertain<EducationLevels>? _HighestSchoolClass1;
-		public Uncertain<EducationLevels>? _HighestSchoolClass2;
-		public Uncertain<EducationFields>? _HighestQualification1;
-		public Uncertain<EducationFields>? _HighestQualification2;
-		public Uncertain<IncomeLevelsMonthly>? _Income;
-		public Uncertain<bool>? _IsAliveMother;
-		public Uncertain<bool>? _IsAliveFather;
-		public Uncertain<Languages>? _Language1;
-		public Uncertain<Languages>? _Language2;
-		public Uncertain<MaritalStatuses>? _MaritalStatus;
-		public Uncertain<bool>? _MigrantWorker;
-		public Uncertain<int>? _NumberBirthsLast12Months;
-		public Uncertain<Provinces>? _Province;
-		public Uncertain<PopulationGroups>? _Race;
-		public Uncertain<Relations>? _Relationship;
-		public Uncertain<Religions>? _Religion;
-		public Uncertain<TypeInstitution>? _TypeInstitution;
-		public Uncertain<TypeQuestionnaireHouseholds>? _TypeQuestionnaire;
-		public Uncertain<Sexes>? _Sex;
-		public Uncertain<EmploymentStatuses>? _StatusEmployment;
-		public Uncertain<StatusStudying>? _StatusStudying;
-		public Uncertain<StatusWork>? _StatusWork;
-		public Uncertain<bool>? _Urban;
-		public Uncertain<UsualResidence>? _UsualResidencePlaceOf;
-		public Uncertain<int>? _UsualResidenceYearMoved;
 	}
 }
