@@ -23,7 +23,7 @@
     <PackageTags>south;africa;census;extension;xyclone;designs</PackageTags>
     <RepositoryUrl>https://github.com/xyclone-designs/packages.database/$(AssemblyName)</RepositoryUrl>
     <Title>$(AssemblyName)</Title>
-    <Version>0.9.7.1</Version>
+    <Version>0.9.7.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

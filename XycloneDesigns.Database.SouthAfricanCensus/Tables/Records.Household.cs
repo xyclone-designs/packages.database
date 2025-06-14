@@ -228,18 +228,23 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		{
 			return new RecordHousehold
 			{
-				DwellingsOwned = Uncertain.From<bool>(DwellingsOwned),
-				Dwelling = Uncertain.From<TypeDwelling>(Dwelling),
-				HighestIncomeIn = Uncertain.From<IncomeLevelsMonthly>(HighestIncomeIn),
-				HighestIncomeIn_Gender = Uncertain.From<Sexes>(HighestIncomeIn_Gender),
-				HighestIncomeIn_Race = Uncertain.From<PopulationGroups>(HighestIncomeIn_Race),
-				Income = Uncertain.From<IncomeLevelsMonthlyHousehold>(Income),
-				IncomeAdditional = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeAdditional),
-				IncomeReceivedRemittances = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeReceivedRemittances),
-				Migrant = Uncertain.From<bool>(Migrant),
-				NumberOf_MigrantWorkers = Uncertain.From<int>(NumberOf_MigrantWorkers),
-				NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(NumberOf_HouseholdsSharingOneRoom),
-
+				Dwelling = new Dwellings
+				{
+					Owned = Uncertain.From<bool>(DwellingsOwned),
+					Dwelling = Uncertain.From<TypeDwelling>(Dwelling),
+					Migrants = Uncertain.From<bool>(Migrant),
+					NumberOf_MigrantWorkers = Uncertain.From<int>(NumberOf_MigrantWorkers),
+					NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(NumberOf_HouseholdsSharingOneRoom),
+				},
+				HouseholdIncome = new HouseholdIncome
+				{					
+					HighestIncomeIn = Uncertain.From<IncomeLevelsMonthly>(HighestIncomeIn),
+					HighestIncomeIn_Gender = Uncertain.From<Sexes>(HighestIncomeIn_Gender),
+					HighestIncomeIn_Race = Uncertain.From<PopulationGroups>(HighestIncomeIn_Race),
+					Income = Uncertain.From<IncomeLevelsMonthlyHousehold>(Income),
+					IncomeAdditional = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeAdditional),
+					IncomeReceivedRemittances = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeReceivedRemittances),
+				},
 				Household = new Household
 				{
 					FacilitiesToilet = Uncertain.From<FacilitiesToilet>(FacilitiesToilet),
@@ -278,17 +283,18 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		}
 		public void FromModel(RecordHousehold record)
 		{
-			DwellingsOwned = record.DwellingsOwned?.ToInt();
-			Dwelling = record.Dwelling?.ToInt(_ => (int?)_);
-			HighestIncomeIn = record.HighestIncomeIn?.ToInt(_ => (int?)_);
-			HighestIncomeIn_Gender = record.HighestIncomeIn_Gender?.ToInt(_ => (int?)_);
-			HighestIncomeIn_Race = record.HighestIncomeIn_Race?.ToInt(_ => (int?)_);
-			Income = record.Income?.ToInt(_ => (int?)_);
-			IncomeAdditional = record.IncomeAdditional?.ToInt(_ => (int?)_);
-			IncomeReceivedRemittances = record.IncomeReceivedRemittances?.ToInt(_ => (int?)_);
-			Migrant = record.Migrant?.ToInt();
-			NumberOf_MigrantWorkers = record.NumberOf_MigrantWorkers?.ToInt(_ => (int?)_);
-			NumberOf_HouseholdsSharingOneRoom = record.NumberOf_HouseholdsSharingOneRoom?.ToInt(_ => (int?)_);
+			HighestIncomeIn = record.HouseholdIncome?.HighestIncomeIn?.ToInt(_ => (int?)_);
+			HighestIncomeIn_Gender = record.HouseholdIncome?.HighestIncomeIn_Gender?.ToInt(_ => (int?)_);
+			HighestIncomeIn_Race = record.HouseholdIncome?.HighestIncomeIn_Race?.ToInt(_ => (int?)_);
+			Income = record.HouseholdIncome?.Income?.ToInt(_ => (int?)_);
+			IncomeAdditional = record.HouseholdIncome?.IncomeAdditional?.ToInt(_ => (int?)_);
+			IncomeReceivedRemittances = record.HouseholdIncome?.IncomeReceivedRemittances?.ToInt(_ => (int?)_);
+
+			Dwelling = record.Dwelling?.Dwelling?.ToInt(_ => (int?)_);
+			DwellingsOwned = record.Dwelling?.Owned?.ToInt();
+			Migrant = record.Dwelling?.Migrants?.ToInt();
+			NumberOf_MigrantWorkers = record.Dwelling?.NumberOf_MigrantWorkers?.ToInt(_ => (int?)_);
+			NumberOf_HouseholdsSharingOneRoom = record.Dwelling?.NumberOf_HouseholdsSharingOneRoom?.ToInt(_ => (int?)_);
 			
 			CouncilCodeDistrict = record.Location?.CouncilCodeDistrict;
 			CouncilCodeMagisterial = record.Location?.CouncilCodeMagisterial;
