@@ -3,7 +3,7 @@ using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Models
 {
-	public class AgriculturalLand : _Model
+	public class Land : _Model
 	{
 		public int? LivestockProduction { get; set; }
 		public int? Poultry { get; set; }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Enums;
 using XycloneDesigns.Database.SouthAfricanCensus.Models;
 using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
@@ -29,6 +28,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			public const string Column_HeadOf_Occupation = "headof_occupation";
 			public const string Column_HeadOf_Race = "headof_race";
 			public const string Column_HeadOf_Sex = "headof_sex";
+			public const string Column_HighestIncomeIn = "highestincomein";
 			public const string Column_HighestIncomeIn_Gender = "highestincomein_gender";
 			public const string Column_HighestIncomeIn_Race = "highestincomein_race";
 			public const string Column_HouseholdSize = "householdsize";
@@ -61,9 +61,9 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			get => _Dwelling?.ToInt(_ => (int?)_);
 			set => _Dwelling = Uncertain.From<TypeDwelling>(value);
 		}
-		[SQLite.Column(SQL.Column_DwellingsOwned)] public bool? DwellingsOwned
+		[SQLite.Column(SQL.Column_DwellingsOwned)] public int? DwellingsOwned
 		{ 
-			get => _DwellingsOwned?.ToInt(_ => (int?)_);
+			get => _DwellingsOwned?.ToInt();
 			set => _DwellingsOwned = Uncertain.From<bool>(value); 
 		}
 		[SQLite.Column(SQL.Column_FacilitiesToilet)] public int? FacilitiesToilet
@@ -112,6 +112,11 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			get => _HeadOf_Sex?.ToInt(_ => (int?)_);
 			set => _HeadOf_Sex = Uncertain.From<Sexes>(value);
 		}
+		[SQLite.Column(SQL.Column_HighestIncomeIn)] public int? HighestIncomeIn
+		{
+			get => _HighestIncomeIn?.ToInt(_ => (int?)_);
+			set => _HighestIncomeIn = Uncertain.From<IncomeLevelsMonthly>(value);
+		}
 		[SQLite.Column(SQL.Column_HighestIncomeIn_Gender)] public int? HighestIncomeIn_Gender
 		{
 			get => _HighestIncomeIn_Gender?.ToInt(_ => (int?)_);
@@ -144,7 +149,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		}
 		[SQLite.Column(SQL.Column_Migrant)] public int? Migrant
 		{
-			get => _Migrant?.ToInt(_ => (int?)_);
+			get => _Migrant?.ToInt();
 			set => _Migrant = Uncertain.From<bool>(value);
 		}
 		[SQLite.Column(SQL.Column_NumberOf_MigrantWorkers)] public int? NumberOf_MigrantWorkers
@@ -157,7 +162,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			get => _NumberOf_HouseholdsSharingOneRoom?.ToInt(_ => (int?)_);
 			set => _NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(value);
 		}
-		[SQLite.Column(SQL.Column_QuestionType)] public string? QuestionType { get; set; }
+		[SQLite.Column(SQL.Column_QuestionType)] public int? QuestionType { get; set; }
 		[SQLite.Column(SQL.Column_Rooms)] public int? Rooms
 		{
 			get => _Rooms?.ToInt(_ => _);
@@ -185,7 +190,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		}
 		[SQLite.Column(SQL.Column_Urban)] public int? Urban
 		{
-			get => _Urban?.ToInt(_ => (int?)_);
+			get => _Urban?.ToInt();
 			set => _Urban = Uncertain.From<bool>(value);
 		}
 
@@ -201,6 +206,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public Uncertain<IncomeLevelsMonthly>? _HeadOf_IncomeLevel;
 		public Uncertain<PopulationGroups>? _HeadOf_Race;
 		public Uncertain<Sexes>? _HeadOf_Sex;
+		public Uncertain<IncomeLevelsMonthly>? _HighestIncomeIn;
 		public Uncertain<Sexes>? _HighestIncomeIn_Gender;
 		public Uncertain<PopulationGroups>? _HighestIncomeIn_Race;
 		public Uncertain<int>? _HouseholdSize;
@@ -218,14 +224,97 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public Uncertain<SourceOfFuel>? _SourceOfFuelLighting;
 		public Uncertain<bool>? _Urban;
 
+		public RecordHousehold ToModel()
+		{
+			return new RecordHousehold
+			{
+				DwellingsOwned = Uncertain.From<bool>(DwellingsOwned),
+				Dwelling = Uncertain.From<TypeDwelling>(Dwelling),
+				HighestIncomeIn = Uncertain.From<IncomeLevelsMonthly>(HighestIncomeIn),
+				HighestIncomeIn_Gender = Uncertain.From<Sexes>(HighestIncomeIn_Gender),
+				HighestIncomeIn_Race = Uncertain.From<PopulationGroups>(HighestIncomeIn_Race),
+				Income = Uncertain.From<IncomeLevelsMonthlyHousehold>(Income),
+				IncomeAdditional = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeAdditional),
+				IncomeReceivedRemittances = Uncertain.From<IncomeLevelsMonthlyHousehold>(IncomeReceivedRemittances),
+				Migrant = Uncertain.From<bool>(Migrant),
+				NumberOf_MigrantWorkers = Uncertain.From<int>(NumberOf_MigrantWorkers),
+				NumberOf_HouseholdsSharingOneRoom = Uncertain.From<int>(NumberOf_HouseholdsSharingOneRoom),
+
+				Household = new Household
+				{
+					FacilitiesToilet = Uncertain.From<FacilitiesToilet>(FacilitiesToilet),
+					FacilitiesTelephone = Uncertain.From<FacilitiesTelephone>(FacilitiesTelephone),
+					FacilitiesRefuseDisposal = Uncertain.From<FacilitiesRefuseDisposal>(FacilitiesRefuseDisposal),
+					Rooms = Uncertain.From<int>(Rooms),
+					Size = Uncertain.From<int>(HouseholdSize),
+					SourceOfWater = Uncertain.From<SourceOfWater>(SourceOfWater),
+					SourceOfFuelCooking = Uncertain.From<SourceOfFuel>(SourceOfFuelCooking),
+					SourceOfFuelHeating = Uncertain.From<SourceOfFuel>(SourceOfFuelHeating),
+					SourceOfFuelLighting = Uncertain.From<SourceOfFuel>(SourceOfFuelLighting),
+
+					HeadOf = new Personhood
+					{
+						Age = Uncertain.From<int>(HeadOf_Age),
+						Education = Uncertain.From<EducationLevels>(HeadOf_Education),
+						Gender = Uncertain.From<Sexes>(HeadOf_Sex),
+						IncomeLevel = Uncertain.From<IncomeLevelsMonthly>(HeadOf_IncomeLevel),
+						Occupation = HeadOf_Occupation,
+						Race = Uncertain.From<PopulationGroups>(HeadOf_Race),
+						StatusEmployment = Uncertain.From<EmploymentStatuses>(HeadOf_EmploymentStatus),
+					},
+				},
+				Metadata = new Metadata
+				{
+					TypeQuestionnaire = Uncertain.From<TypeQuestionnaireHouseholds>(QuestionType),
+				},
+				Location = new Location
+				{
+					Province = Uncertain.From<Provinces>(Province),
+					CouncilCodeDistrict = CouncilCodeDistrict,
+					CouncilCodeMagisterial = CouncilCodeMagisterial,
+					CouncilCodeTransitionalLocalRural = CouncilCodeTransitionalLocalRural,
+				},
+			};
+		}
 		public void FromModel(RecordHousehold record)
 		{
+			DwellingsOwned = record.DwellingsOwned?.ToInt();
+			Dwelling = record.Dwelling?.ToInt(_ => (int?)_);
+			HighestIncomeIn = record.HighestIncomeIn?.ToInt(_ => (int?)_);
+			HighestIncomeIn_Gender = record.HighestIncomeIn_Gender?.ToInt(_ => (int?)_);
+			HighestIncomeIn_Race = record.HighestIncomeIn_Race?.ToInt(_ => (int?)_);
+			Income = record.Income?.ToInt(_ => (int?)_);
+			IncomeAdditional = record.IncomeAdditional?.ToInt(_ => (int?)_);
+			IncomeReceivedRemittances = record.IncomeReceivedRemittances?.ToInt(_ => (int?)_);
+			Migrant = record.Migrant?.ToInt();
+			NumberOf_MigrantWorkers = record.NumberOf_MigrantWorkers?.ToInt(_ => (int?)_);
+			NumberOf_HouseholdsSharingOneRoom = record.NumberOf_HouseholdsSharingOneRoom?.ToInt(_ => (int?)_);
+			
 			CouncilCodeDistrict = record.Location?.CouncilCodeDistrict;
 			CouncilCodeMagisterial = record.Location?.CouncilCodeMagisterial;
 			CouncilCodeTransitionalLocalRural = record.Location?.CouncilCodeTransitionalLocalRural;
 			Province = record.Location?.Province?.ToInt(_ => (int?)_);
 			Urban = record.Location?.Urban?.ToInt(_ => _);
 
+			QuestionType = record.Metadata?.TypeQuestionnaire?.ToInt(_ => (int?)_);
+
+			FacilitiesToilet = record.Household?.FacilitiesToilet?.ToInt(_ => (int?)_);
+			FacilitiesTelephone = record.Household?.FacilitiesTelephone?.ToInt(_ => (int?)_);
+			FacilitiesRefuseDisposal = record.Household?.FacilitiesRefuseDisposal?.ToInt(_ => (int?)_);
+			Rooms = record.Household?.Rooms?.ToInt(_ => _);
+			HouseholdSize = record.Household?.Size?.ToInt(_ => _);
+			SourceOfWater = record.Household?.SourceOfWater?.ToInt(_ => (int?)_);
+			SourceOfFuelCooking = record.Household?.SourceOfFuelCooking?.ToInt(_ => (int?)_);
+			SourceOfFuelHeating = record.Household?.SourceOfFuelHeating?.ToInt(_ => (int?)_);
+			SourceOfFuelLighting = record.Household?.SourceOfFuelLighting?.ToInt(_ => (int?)_);
+
+			HeadOf_Age = record.Household?.HeadOf?.Age?.ToInt(_ => (int?)_);
+			HeadOf_Education = record.Household?.HeadOf?.Education?.ToInt(_ => (int?)_);
+			HeadOf_Sex = record.Household?.HeadOf?.Gender?.ToInt(_ => (int?)_);
+			HeadOf_IncomeLevel = record.Household?.HeadOf?.IncomeLevel?.ToInt(_ => (int?)_);
+			HeadOf_Occupation = record.Household?.HeadOf?.Occupation;
+			HeadOf_Race = record.Household?.HeadOf?.Race?.ToInt(_ => (int?)_);
+			HeadOf_EmploymentStatus = record.Household?.HeadOf?.StatusEmployment?.ToInt(_ => (int?)_);
 		}
 	}
 }

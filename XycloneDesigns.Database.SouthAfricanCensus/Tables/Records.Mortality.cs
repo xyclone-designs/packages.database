@@ -1,6 +1,8 @@
 ﻿using System;
 
+using XycloneDesigns.Database.SouthAfricanCensus.Enums;
 using XycloneDesigns.Database.SouthAfricanCensus.Models;
+using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 {
@@ -30,6 +32,20 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		[SQLite.Column(SQL.Column_WasDeathFromViolence)] public int? WasDeathFromViolence { get; set; }
 		[SQLite.Column(SQL.Column_WasPregnantWhenDeceased)] public int? WasPregnantWhenDeceased { get; set; }
 
+		public RecordMortality ToModel()
+		{
+			return new RecordMortality
+			{
+				AgeOfDeceased = Uncertain.From<int>(AgeOfDeceased),
+				AnybodyDied = Uncertain.From<bool>(AnybodyDied),
+				DateOfDeath = DateOfDeath,
+				Gender = Uncertain.From<Sexes>(Gender),
+				HowManyDied = Uncertain.From<int>(HowManyDied),
+				ImputationFlags = Uncertain.From<ImputationFlags>(ImputationFlags),
+				WasDeathFromViolence = Uncertain.From<bool>(WasDeathFromViolence),
+				WasPregnantWhenDeceased = Uncertain.From<bool>(WasPregnantWhenDeceased),
+			};
+		}
 		public void FromModel(RecordMortality record)
 		{
 			AgeOfDeceased = record.AgeOfDeceased?.ToInt(_ => _);

@@ -1,4 +1,6 @@
-﻿using XycloneDesigns.Database.SouthAfricanCensus.Models;
+﻿using XycloneDesigns.Database.SouthAfricanCensus.Enums;
+using XycloneDesigns.Database.SouthAfricanCensus.Models;
+using XycloneDesigns.Database.SouthAfricanCensus.Structs;
 
 namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 {
@@ -112,6 +114,80 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		[SQLite.Column(SQL.Column_UsualResidencePlaceOf)] public int? UsualResidencePlaceOf { get; set; }
 		[SQLite.Column(SQL.Column_UsualResidenceYearMoved)] public int? UsualResidenceYearMoved { get; set; }
 
+		public RecordPerson ToModel()
+		{
+			return new RecordPerson
+			{
+				Location = new Location
+				{
+					CouncilCodeDistrict = CouncilCodeDistrict,
+					CouncilCodeMagisterial = CouncilCodeMagisterial,
+					CouncilCodeTransitionalLocalRural = CouncilCodeTransitionalLocalRural,
+					Province = Uncertain.From<Provinces>(Province),
+					Urban = Uncertain.From<int>(Urban),
+				},
+				Disabilities = new Disabilities
+				{
+					Type = Uncertain.From<TypeDisability>(Disability),
+					Sight = Uncertain.From<bool>(DisabilitySight),
+					Hearing = Uncertain.From<bool>(DisabilityHearing),
+					Physical = Uncertain.From<bool>(DisabilityPhysical),
+					Mental = Uncertain.From<bool>(DisabilityMental),
+				},
+				Metadata = new Metadata
+				{
+					TypeInstitution = Uncertain.From<TypeInstitution>(TypeInstitution),
+					TypeQuestionnaire = Uncertain.From<TypeQuestionnaireHouseholds>(TypeQuestionnaire),
+				},
+				Motherhood = new Motherhood
+				{
+					AgeAtFirstBorn = Uncertain.From<int>(AgeOfMotherAtFirstBorn),
+					ChildrenBorn = Uncertain.From<int>(ChildrenBorn),
+					ChildrenAlive = Uncertain.From<int>(ChildrenAlive),
+					NumberBirthsLast12Months = Uncertain.From<int>(NumberBirthsLast12Months),
+				},
+				Personhood = new Personhood
+				{
+					Age = Uncertain.From<int>(Age),
+					Citizenship = Uncertain.From<CitizenshipStatus>(Citizenship),
+					CountryBirth = Uncertain.From<Countries>(CountryBirth),
+					CountryCitizenOther = Uncertain.From<Countries>(CountryCitizenOther),
+					CountryCitizenSouthAfrica = Uncertain.From<Countries>(CountryCitizenSouthAfrica),
+					HighestSchoolClass1 = Uncertain.From<EducationLevels>(HighestSchoolClass1),
+					HighestSchoolClass2 = Uncertain.From<EducationLevels>(HighestSchoolClass2),
+					HighestQualification1 = Uncertain.From<EducationFields>(HighestQualification1),
+					HighestQualification2 = Uncertain.From<EducationFields>(HighestQualification2),
+					IsAliveMother = Uncertain.From<bool>(IsAliveMother),
+					IsAliveFather = Uncertain.From<bool>(IsAliveFather),
+					Language1 = Uncertain.From<Languages>(Language1),
+					Language2 = Uncertain.From<Languages>(Language2),
+					MaritalStatus = Uncertain.From<MaritalStatuses>(MaritalStatus),
+					Race = Uncertain.From<PopulationGroups>(Race),
+					Religion = Uncertain.From<Religions>(Religion),
+					Gender = Uncertain.From<Sexes>(Sex),
+					StatusEmployment = Uncertain.From<EmploymentStatuses>(StatusEmployment),
+					StatusStudying = Uncertain.From<StatusStudying>(StatusStudying),
+					StatusWork = Uncertain.From<StatusWork>(StatusWork),
+				},
+				Occupation = new Occupation
+				{
+					Code = OccupationCode,
+					CodeEmploymentMagisterial = EmploymentMagisterialCode,
+					CodeIndustry = IndustryCode,
+					CodePrevious = OccupationCodePrevious,
+					FullOrPartTime = Uncertain.From<bool>(FullOrPartTime),
+					Income = Uncertain.From<IncomeLevelsMonthly>(Income),
+					IsMigrantWorker = Uncertain.From<bool>(MigrantWorker),
+				},
+				Residence = new Residence
+				{
+					PreviousMagesterialCode = PreviousResidenceMagesterialCode,
+					UsualMagesterialCode = UsualResidenceMagesterialCode,
+					UsualPlaceOf = Uncertain.From<UsualResidence>(UsualResidencePlaceOf),
+					UsualYearMoved = Uncertain.From<int>(UsualResidenceYearMoved),
+				},
+			};
+		}
 		public void FromModel(RecordPerson record)
 		{
 			CouncilCodeDistrict = record.Location?.CouncilCodeDistrict;
@@ -150,7 +226,7 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 			MaritalStatus = record.Personhood?.MaritalStatus?.ToInt(_ => (int?)_);
 			Race = record.Personhood?.Race?.ToInt(_ => (int?)_);
 			Religion = record.Personhood?.Religion?.ToInt(_ => (int?)_);
-			Sex = record.Personhood?.Sex?.ToInt(_ => (int?)_);
+			Sex = record.Personhood?.Gender?.ToInt(_ => (int?)_);
 			StatusEmployment = record.Personhood?.StatusEmployment?.ToInt(_ => (int?)_);
 			StatusStudying = record.Personhood?.StatusStudying?.ToInt(_ => (int?)_);
 			StatusWork = record.Personhood?.StatusWork?.ToInt(_ => (int?)_);

@@ -52,26 +52,52 @@ namespace XycloneDesigns.Database.SouthAfricanCensus.Tables
 		public Uncertain<LivestockCounts>? _Pigs;
 		public Uncertain<LivestockCounts>? _OtherLivestocks;
 
-		public void FromModel(RecordHousehold record)
+		public new RecordHousehold ToModel()
+		{
+			RecordHousehold _base = base.ToModel();
+
+			_base.Land = new Land
+			{
+				LivestockProduction = LivestockProduction,
+				Poultry = Poultry,
+				VegetableProduction = VegetableProduction,
+				OtherCrops = OtherCrops,
+				FodderGrazingPastureGrassForAnimals = FodderGrazingPastureGrassForAnimals,
+				OtherAgriculturalActivies = OtherAgriculturalActivies,
+				NoAgriculturalActivies = NoAgriculturalActivies,
+				Cattle = Uncertain.From<LivestockCounts>(Cattle),
+				Sheep = Uncertain.From<LivestockCounts>(Sheep),
+				Goats = Uncertain.From<LivestockCounts>(Goats),
+				Pigs = Uncertain.From<LivestockCounts>(Pigs),
+				OtherLivestocks = Uncertain.From<LivestockCounts>(OtherLivestocks),
+				Farmland = Farmland,
+				BackyardOrSchool = BackyardOrSchool,
+				CommunalOrTribalLand = CommunalOrTribalLand,
+				OtherPlaceOfAgriculturalActivies = OtherPlaceOfAgriculturalActivies,
+			};
+
+			return _base;
+		}
+		public new void FromModel(RecordHousehold record)
 		{
 			base.FromModel(record);
 
-			LivestockProduction = record.AgriculturalLand?.LivestockProduction;
-			Poultry = record.AgriculturalLand?.Poultry;
-			VegetableProduction = record.AgriculturalLand?.VegetableProduction;
-			OtherCrops = record.AgriculturalLand?.OtherCrops;
-			FodderGrazingPastureGrassForAnimals = record.AgriculturalLand?.FodderGrazingPastureGrassForAnimals;
-			OtherAgriculturalActivies = record.AgriculturalLand?.OtherAgriculturalActivies;
-			NoAgriculturalActivies = record.AgriculturalLand?.NoAgriculturalActivies;
-			Cattle = record.AgriculturalLand?.Cattle?.ToInt(_ => (int?)_);
-			Sheep = record.AgriculturalLand?.Sheep?.ToInt(_ => (int?)_);
-			Goats = record.AgriculturalLand?.Goats?.ToInt(_ => (int?)_);
-			Pigs = record.AgriculturalLand?.Pigs?.ToInt(_ => (int?)_);
-			OtherLivestocks = record.AgriculturalLand?.OtherLivestocks?.ToInt(_ => (int?)_);
-			Farmland = record.AgriculturalLand?.Farmland;
-			BackyardOrSchool = record.AgriculturalLand?.BackyardOrSchool;
-			CommunalOrTribalLand = record.AgriculturalLand?.CommunalOrTribalLand;
-			OtherPlaceOfAgriculturalActivies = record.AgriculturalLand?.OtherPlaceOfAgriculturalActivies;
+			LivestockProduction = record.Land?.LivestockProduction;
+			Poultry = record.Land?.Poultry;
+			VegetableProduction = record.Land?.VegetableProduction;
+			OtherCrops = record.Land?.OtherCrops;
+			FodderGrazingPastureGrassForAnimals = record.Land?.FodderGrazingPastureGrassForAnimals;
+			OtherAgriculturalActivies = record.Land?.OtherAgriculturalActivies;
+			NoAgriculturalActivies = record.Land?.NoAgriculturalActivies;
+			Cattle = record.Land?.Cattle?.ToInt(_ => (int?)_);
+			Sheep = record.Land?.Sheep?.ToInt(_ => (int?)_);
+			Goats = record.Land?.Goats?.ToInt(_ => (int?)_);
+			Pigs = record.Land?.Pigs?.ToInt(_ => (int?)_);
+			OtherLivestocks = record.Land?.OtherLivestocks?.ToInt(_ => (int?)_);
+			Farmland = record.Land?.Farmland;
+			BackyardOrSchool = record.Land?.BackyardOrSchool;
+			CommunalOrTribalLand = record.Land?.CommunalOrTribalLand;
+			OtherPlaceOfAgriculturalActivies = record.Land?.OtherPlaceOfAgriculturalActivies;
 		}
 	}
 }
